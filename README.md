@@ -25,10 +25,12 @@ Frecuencia y Monto) sobre un Data Warehouse en esquema estrella.
 | Fase 4 — Reconstrucción completa del DW | Completada |
 | Fase 5 — Validación final y exportación | Completada |
 | Fase 6 — Modelo Power BI y reglas RFM | Completada |
-| Fase 7 — Consolidación de RFM y KPI | **Completada** (esta fase) |
-| Etapa 3 — Modelo y dashboard Power BI | Pendiente de validación manual de DAX |
+| Fase 7 — Consolidación de RFM y KPI | Completada |
+| Etapa 3 — Dashboard Power BI | **PBIX entregado** con páginas funcionales y validaciones |
+| Informe Word — Etapa 3 | Pendiente de redacción |
 
-El informe cubre hasta la sección 2.3.8. La Etapa 3 aún no está redactada.
+El informe cubre hasta la sección 2.3.8. La Etapa 3 aún no está redactada en el
+documento Word.
 
 ---
 
@@ -84,6 +86,7 @@ veces con resultado idéntico y se generó un backup validado en
 | `06_Validacion/SQL_2_2_6_Validacion_Nicole.sql` | Conteos, huérfanos y suma total |
 | `06_Validacion/SQL_2_3_Integridad_Calidad_Datos.sql` | Integridad, duplicados, cálculos y reconciliación |
 | `00_Ejecutar_Reconstruccion.sql` | Script maestro con el orden de ejecución completo |
+| `Dashboard.pbix` | Dashboard de tres páginas funcionales y cuatro de validación |
 
 ---
 
@@ -193,10 +196,9 @@ Resultados SQL: 89 compradores, 2 sin compras; 67 activos; 830 pedidos;
 monto `1 265 793,0395` USD. Segmentos: 17 VIP, 28 Activos, 22 Ocasionales,
 5 En riesgo, 2 Frecuentes y 15 Inactivos. VIP = **19,10 %** de compradores.
 
-Las expresiones DAX están preparadas pero **no ejecutadas**. Se requiere abrir
-Power BI Desktop, construir el modelo, validar contra las evidencias SQL y
-guardar PBIP; luego producir el PBIX de entrega. No se generaron archivos
-PBIX/PBIP inválidos.
+Las expresiones DAX fueron contrastadas manualmente en Power BI Desktop y el
+resultado quedó en `Dashboard.pbix`; las referencias SQL se conservan como
+comprobación reproducible. No se generó un PBIP.
 
 Las referencias y resultados de los siete KPI están en
 `00_Documentacion/kpis_etapa1.md` y `07_Etapa3_RFM/evidencias/`. KPI 7 es solo
@@ -204,12 +206,38 @@ un proxy de reactivación histórica y no mide el efecto de campañas.
 
 ---
 
+## Dashboard Power BI (`Dashboard.pbix`)
+
+El archivo de entrega está en la raíz del repositorio y conserva el modelo, las
+medidas y las páginas construidas en Power BI Desktop.
+
+| Tipo | Página | Visuales |
+|---|---|---:|
+| Funcional | Resumen Ejecutivo | 12 |
+| Funcional | Segmentación RFM | 7 |
+| Funcional | Análisis de clientes | 9 |
+| Validación | Validación técnica | 2 |
+| Validación | Validación RFM | 4 |
+| Validación | Validación KPI 1-3 | 3 |
+| Validación | Validación KPI 4-7 | 4 |
+
+Las páginas funcionales cubren la lectura ejecutiva, la segmentación y el
+detalle por cliente; las cuatro páginas restantes documentan los controles
+manuales de modelo, RFM y KPI. El PBIX se publica como binario y no se modifica
+desde el repositorio.
+
+Pendientes: redactar la Etapa 3 en el informe Word y, opcionalmente, generar un
+PBIP para versionar el modelo en TMDL. Si se genera, debe crearse desde Power BI
+Desktop y validarse antes de reemplazar la entrega PBIX.
+
+---
+
 ## Repositorio
 
 - Rama principal: `main` (entrega original sin reorganizar).
-- Rama de trabajo: `feature/consolidacion-dw`.
+- Rama de trabajo: `feature/consolidacion-dw`, publicada en `origin`.
 - Commits pequeños, en español, un cambio lógico por commit.
-- Sin `push` hasta autorización.
+- Sin merge a `main` en esta entrega.
 - Remoto `origin`: `https://github.com/danielaoxeda/northwind-rfm-bi.git`.
 
 ### Archivos fuera de Git
