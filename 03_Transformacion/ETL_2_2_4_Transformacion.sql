@@ -81,17 +81,18 @@ CREATE TABLE dbo.TRF_Tiempo
 );
 
 /* Categorias de Northwind (CategoryID -> nombre).
-   STG_Products solo trae CategoryID y el staging no tiene tabla de categorias,
-   asi que se usa esta referencia con los 8 valores estandar de Northwind.
-   Si el Integrante 3 agrega STG_Categories, reemplazar este INSERT por un SELECT a esa tabla. */
+   STG_Products solo trae CategoryID y el staging no tiene tabla de categorias.
+   El catalogo se lee de Northwind.dbo.Categories para no depender de valores
+   hardcodeados: si el origen cambia, la transformacion lo refleja.
+   Requiere acceso a Northwind desde Northwind_Staging. */
 CREATE TABLE dbo.REF_Categoria
 (
     CategoryID   INT           NOT NULL PRIMARY KEY,
     CategoryName NVARCHAR(100) NOT NULL
 );
-INSERT INTO dbo.REF_Categoria (CategoryID, CategoryName) VALUES
- (1, N'Beverages'), (2, N'Condiments'), (3, N'Confections'), (4, N'Dairy Products'),
- (5, N'Grains/Cereals'), (6, N'Meat/Poultry'), (7, N'Produce'), (8, N'Seafood');
+INSERT INTO dbo.REF_Categoria (CategoryID, CategoryName)
+SELECT CategoryID, CategoryName
+FROM Northwind.dbo.Categories;
 GO
 
 /* ------------------------------------------------------------------
