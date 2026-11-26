@@ -1,0 +1,68 @@
+# =============================================================
+#  northwind-rfm-bi
+#  .gitignore para SQL Server / SSIS / Visual Studio / Power BI
+# =============================================================
+
+# --- Respaldos y archivos de base de datos -------------------
+# Los .bak se conservan localmente (ver README) pero no se
+# versionan por peso. Si se necesitan compartir, usar Git LFS
+# o almacenamiento externo.
+*.bak
+*.trn
+*.mdf
+*.ldf
+*.ndf
+*.sdf
+*.dbmdl
+
+# --- SSIS / SQL Server ---------------------------------------
+*.ispac
+*.ispac.dep
+*.dtsx.user
+*.dtproj.user
+*.conmgr.user
+*.dtsConfig.user
+*.cache
+*.cache.bin
+
+# --- Visual Studio -------------------------------------------
+.vs/
+bin/
+obj/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.suo.user
+*.VC.db
+*.VC.opendb
+*.psess
+*.vsp
+*.vspx
+TestResults/
+.vstest/
+BuildLog.xml
+
+# --- Power BI -------------------------------------------------
+# Los entregables .pbix se versionan (son parte de la entrega).
+# Si superan ~50 MB, migrar a Git LFS.
+*.pbix.tmp
+*.pbit.tmp
+*.pbixproj.user
+*.pbip.user
+*.pbi/
+*.pbi.cache
+*.pbids
+~$*.pbix
+~$*.pbit
+
+# --- Sistema operativo ---------------------------------------
+Thumbs.db
+desktop.ini
+.DS_Store
+$RECYCLE.BIN/
+
+# --- Entorno y secretos --------------------------------------
+.env
+*.local
+secrets/

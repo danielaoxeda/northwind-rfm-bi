@@ -1,0 +1,16 @@
+# Normalización de finales de línea
+* text=auto
+
+# Scripts y artefactos de texto del proyecto
+*.sql   text eol=crlf
+*.dtsx  text eol=crlf
+*.conmgr text eol=crlf
+*.dtproj text eol=crlf
+*.params text eol=crlf
+*.md    text eol=lf
+
+# Binarios
+*.bak   binary
+*.docx  binary
+*.pbix  binary
+*.ispac binary
