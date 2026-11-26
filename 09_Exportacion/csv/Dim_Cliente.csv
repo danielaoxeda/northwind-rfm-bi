@@ -1,0 +1,92 @@
+﻿ID_Cliente,ID_Cliente_Northwind,Nombre_Empresa,Pais,Ciudad
+1,ALFKI,Alfreds Futterkiste,Germany,Berlin
+2,ANATR,Ana Trujillo Emparedados y helados,Mexico,México D.F.
+3,ANTON,Antonio Moreno Taquería,Mexico,México D.F.
+4,AROUT,Around the Horn,UK,London
+5,BERGS,Berglunds snabbköp,Sweden,Luleå
+6,BLAUS,Blauer See Delikatessen,Germany,Mannheim
+7,BLONP,Blondesddsl père et fils,France,Strasbourg
+8,BOLID,Bólido Comidas preparadas,Spain,Madrid
+9,BONAP,Bon app',France,Marseille
+10,BOTTM,Bottom-Dollar Markets,Canada,Tsawassen
+11,BSBEV,B's Beverages,UK,London
+12,CACTU,Cactus Comidas para llevar,Argentina,Buenos Aires
+13,CENTC,Centro comercial Moctezuma,Mexico,México D.F.
+14,CHOPS,Chop-suey Chinese,Switzerland,Bern
+15,COMMI,Comércio Mineiro,Brazil,Sao Paulo
+16,CONSH,Consolidated Holdings,UK,London
+17,DRACD,Drachenblut Delikatessen,Germany,Aachen
+18,DUMON,Du monde entier,France,Nantes
+19,EASTC,Eastern Connection,UK,London
+20,ERNSH,Ernst Handel,Austria,Graz
+21,FAMIA,Familia Arquibaldo,Brazil,Sao Paulo
+22,FISSA,FISSA Fabrica Inter. Salchichas S.A.,Spain,Madrid
+23,FOLIG,Folies gourmandes,France,Lille
+24,FOLKO,Folk och fä HB,Sweden,Bräcke
+25,FRANK,Frankenversand,Germany,München
+26,FRANR,France restauration,France,Nantes
+27,FRANS,Franchi S.p.A.,Italy,Torino
+28,FURIB,Furia Bacalhau e Frutos do Mar,Portugal,Lisboa
+29,GALED,Galería del gastrónomo,Spain,Barcelona
+30,GODOS,Godos Cocina Típica,Spain,Sevilla
+31,GOURL,Gourmet Lanchonetes,Brazil,Campinas
+32,GREAL,Great Lakes Food Market,USA,Eugene
+33,GROSR,GROSELLA-Restaurante,Venezuela,Caracas
+34,HANAR,Hanari Carnes,Brazil,Rio de Janeiro
+35,HILAA,HILARION-Abastos,Venezuela,San Cristóbal
+36,HUNGC,Hungry Coyote Import Store,USA,Elgin
+37,HUNGO,Hungry Owl All-Night Grocers,Ireland,Cork
+38,ISLAT,Island Trading,UK,Cowes
+39,KOENE,Königlich Essen,Germany,Brandenburg
+40,LACOR,La corne d'abondance,France,Versailles
+41,LAMAI,La maison d'Asie,France,Toulouse
+42,LAUGB,Laughing Bacchus Wine Cellars,Canada,Vancouver
+43,LAZYK,Lazy K Kountry Store,USA,Walla Walla
+44,LEHMS,Lehmanns Marktstand,Germany,Frankfurt a.M.
+45,LETSS,Let's Stop N Shop,USA,San Francisco
+46,LILAS,LILA-Supermercado,Venezuela,Barquisimeto
+47,LINOD,LINO-Delicateses,Venezuela,I. de Margarita
+48,LONEP,Lonesome Pine Restaurant,USA,Portland
+49,MAGAA,Magazzini Alimentari Riuniti,Italy,Bergamo
+50,MAISD,Maison Dewey,Belgium,Bruxelles
+51,MEREP,Mère Paillarde,Canada,Montréal
+52,MORGK,Morgenstern Gesundkost,Germany,Leipzig
+53,NORTS,North/South,UK,London
+54,OCEAN,Océano Atlántico Ltda.,Argentina,Buenos Aires
+55,OLDWO,Old World Delicatessen,USA,Anchorage
+56,OTTIK,Ottilies Käseladen,Germany,Köln
+57,PARIS,Paris spécialités,France,Paris
+58,PERIC,Pericles Comidas clásicas,Mexico,México D.F.
+59,PICCO,Piccolo und mehr,Austria,Salzburg
+60,PRINI,Princesa Isabel Vinhos,Portugal,Lisboa
+61,QUEDE,Que Delícia,Brazil,Rio de Janeiro
+62,QUEEN,Queen Cozinha,Brazil,Sao Paulo
+63,QUICK,QUICK-Stop,Germany,Cunewalde
+64,RANCH,Rancho grande,Argentina,Buenos Aires
+65,RATTC,Rattlesnake Canyon Grocery,USA,Albuquerque
+66,REGGC,Reggiani Caseifici,Italy,Reggio Emilia
+67,RICAR,Ricardo Adocicados,Brazil,Rio de Janeiro
+68,RICSU,Richter Supermarkt,Switzerland,Genève
+69,ROMEY,Romero y tomillo,Spain,Madrid
+70,SANTG,Santé Gourmet,Norway,Stavern
+71,SAVEA,Save-a-lot Markets,USA,Boise
+72,SEVES,Seven Seas Imports,UK,London
+73,SIMOB,Simons bistro,Denmark,Kobenhavn
+74,SPECD,Spécialités du monde,France,Paris
+75,SPLIR,Split Rail Beer & Ale,USA,Lander
+76,SUPRD,Suprêmes délices,Belgium,Charleroi
+77,THEBI,The Big Cheese,USA,Portland
+78,THECR,The Cracker Box,USA,Butte
+79,TOMSP,Toms Spezialitäten,Germany,Münster
+80,TORTU,Tortuga Restaurante,Mexico,México D.F.
+81,TRADH,Tradição Hipermercados,Brazil,Sao Paulo
+82,TRAIH,Trail's Head Gourmet Provisioners,USA,Kirkland
+83,VAFFE,Vaffeljernet,Denmark,Århus
+84,VICTE,Victuailles en stock,France,Lyon
+85,VINET,Vins et alcools Chevalier,France,Reims
+86,WANDK,Die Wandernde Kuh,Germany,Stuttgart
+87,WARTH,Wartian Herkku,Finland,Oulu
+88,WELLI,Wellington Importadora,Brazil,Resende
+89,WHITC,White Clover Markets,USA,Seattle
+90,WILMK,Wilman Kala,Finland,Helsinki
+91,WOLZA,Wolski  Zajazd,Poland,Warszawa

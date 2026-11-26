@@ -56,6 +56,10 @@ BuildLog.xml
 ~$*.pbix
 ~$*.pbit
 
+# --- Exportacion ---------------------------------------------
+# JSON intermedios de la exportacion (se regeneran).
+09_Exportacion/_tmp/
+
 # --- Sistema operativo ---------------------------------------
 Thumbs.db
 desktop.ini
