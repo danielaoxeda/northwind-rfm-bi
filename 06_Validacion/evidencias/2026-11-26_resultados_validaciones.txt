@@ -1,0 +1,33 @@
+﻿=== CONTEO Y CLAVES DE LAS DIMENSIONES Y HECHOS ===
+Changed database context to 'Northwind_DW'.
+Tabla|Filas|MinID|MaxID|Checksum
+-----|-----|-----|-----|--------
+Dim_Cliente|91|1|91|-1744422070
+Dim_Producto|77|1|77|-1572385952
+Dim_Tiempo|672|19960704|19980506|-1315692542
+Hechos_Ventas|2155|1|2155|303468615
+=== MEDIDAS DE HECHOS ===
+Hechos|Pedidos|Unidades|Monto_Total
+------|-------|--------|-----------
+2155|830|51317|1265793.0395
+=== RECONCILIACION CONTRA NORTHWIND ===
+Sistema|Clientes|Productos|Lineas|Monto_Total
+-------|--------|---------|------|-----------
+Northwind|89|77|2155|1265793.0395
+Northwind_DW|89|77|2155|1265793.0395
+=== CONTROLES (esperado: 0) ===
+Control|Filas
+-------|-----
+Huerfanos|0
+Duplicados (OrderID,ProductID)|0
+ID_Tiempo distinto de AAAAMMDD|0
+Huecos en calendario (dias)|0
+Nulos en medidas|0
+Cantidad no positiva|0
+Precio negativo|0
+Descuento fuera de [0,1]|0
+Monto negativo|0
+=== RANGO DEL CALENDARIO ===
+Fecha_Minima|Fecha_Maxima|Dias
+------------|------------|----
+1996-07-04|1998-05-06|672

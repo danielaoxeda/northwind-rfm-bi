@@ -1,0 +1,130 @@
+﻿Paso 0: verificando Northwind...
+Paso 1: creando Northwind_Staging...
+Changed database context to 'Northwind_Staging'.
+Tabla|Filas
+-----|-----
+STG_Customers|0
+STG_Orders|0
+STG_OrderDetails|0
+STG_Products|0
+
+(4 rows affected)
+Paso 2: extrayendo datos de Northwind...
+Changed database context to 'Northwind_Staging'.
+Tabla|Filas
+-----|-----
+STG_Customers|91
+STG_Orders|830
+STG_OrderDetails|2155
+STG_Products|77
+Control
+-------
+Paso 3: transformando y validando...
+Changed database context to 'Northwind_Staging'.
+Tabla|Leidos|Transformados|Rechazados
+-----|------|-------------|----------
+STG_Customers|91|91|0
+STG_Products|77|77|0
+STG_OrderDetails|2155|2155|0
+Tabla_Origen|Motivo|Filas
+------------|------|-----
+Control
+-------
+OrderID|ProductID|TotalVenta|Esperado
+-------|---------|----------|--------
+Paso 4: creando el esquema del Data Warehouse...
+Changed database context to 'Northwind_DW'.
+Paso 5: cargando dimensiones y calendario...
+Changed database context to 'Northwind_DW'.
+Tabla|Filas
+-----|-----
+Dim_Cliente|91
+Dim_Producto|77
+Dim_Tiempo|672
+Fecha_Minima|Fecha_Maxima
+------------|------------
+1996-07-04|1998-05-06
+Paso 6: cargando hechos...
+Changed database context to 'Northwind_DW'.
+Hechos|Pedidos_Distintos|Monto_Total
+------|-----------------|-----------
+2155|830|1265793.0395
+Control
+-------
+Paso 7: validando la carga...
+Changed database context to 'Northwind_DW'.
+Tabla|Total_Registros
+-----|---------------
+Dim_Cliente|91
+Dim_Producto|77
+Dim_Tiempo|672
+Hechos_Ventas|2155
+Changed database context to 'Northwind_DW'.
+Registros_Huerfanos
+-------------------
+0
+Gran_Total_Ventas
+-----------------
+1265793.0395
+Changed database context to 'Northwind_DW'.
+Tabla|Total_Registros
+-----|---------------
+Dim_Cliente|91
+Dim_Producto|77
+Dim_Tiempo|672
+Hechos_Ventas|2155
+Registros_Huerfanos
+-------------------
+0
+Control|Filas
+-------|-----
+Sin cliente|0
+Sin producto|0
+Sin fecha|0
+name|Tabla|is_disabled
+----|-----|-----------
+FK_Hechos_Ventas_Dim_Tiempo|Hechos_Ventas|0
+FK_Hechos_Ventas_Dim_Cliente|Hechos_Ventas|0
+FK_Hechos_Ventas_Dim_Producto|Hechos_Ventas|0
+Nulos_Cantidad|Nulos_Precio|Nulos_Descuento|Nulos_Monto
+--------------|------------|---------------|-----------
+0|0|0|0
+Control|Filas
+-------|-----
+Nombre = Sin nombre|0
+Pais = Desconocido|0
+Ciudad = Desconocido|0
+Categoria = Sin categoria|0
+Control|Duplicados
+-------|----------
+Hechos (OrderID, ProductID)|0
+Dim_Cliente|0
+Dim_Producto|0
+Dim_Tiempo|0
+Cantidad_No_Positiva|Precio_Negativo|Descuento_Fuera_Rango|Monto_Negativo
+--------------------|---------------|---------------------|--------------
+0|0|0|0
+Fecha_Minima|Fecha_Maxima
+------------|------------
+1996-07-04|1998-05-06
+Changed database context to 'Northwind_Staging'.
+Tabla_Origen|Motivo|Filas
+------------|------|-----
+Changed database context to 'Northwind_DW'.
+ID_Hecho_Venta|OrderID|ProductID|Monto_Total|Esperado
+--------------|-------|---------|-----------|--------
+Changed database context to 'Northwind_DW'.
+Sistema|Clientes|Productos|Lineas|Monto_Total
+-------|--------|---------|------|-----------
+Northwind|91|77|2155|1265793.0395
+Northwind_DW|91|77|2155|1265793.0395
+Cliente|Ped_Origen|Ped_DW|Monto_Origen|Monto_DW
+-------|----------|------|------------|--------
+Changed database context to 'Northwind_DW'.
+Control|Filas
+-------|-----
+ID_Tiempo distinto de AAAAMMDD|0
+Control|Filas
+-------|-----
+Huecos en Dim_Tiempo|0
+Reconstruccion finalizada. Revise que todos los controles devuelvan 0 filas.
