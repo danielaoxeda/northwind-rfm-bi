@@ -4,9 +4,9 @@ Recursos del dashboard de la Etapa 3.
 
 ## Estado
 
-El modelo está especificado y las medidas base están listas, pero **no se ha
-creado el archivo de Power BI** en esta fase. La construcción requiere Power BI
-Desktop y la aprobación de los umbrales RFM.
+El modelo está especificado y las medidas/KPI están preparadas como DAX, pero
+**no se ha creado el archivo de Power BI** en esta fase. La construcción
+requiere Power BI Desktop y validación manual de las expresiones.
 
 ## Formato recomendado: PBIP
 
@@ -39,6 +39,7 @@ Desktop cuando el modelo esté aprobado.
 
 Ver `../modelo_power_bi.md`: importación del XLSX, tipos de datos, relaciones,
 tabla de fechas, medidas DAX, validación y trabajo colaborativo.
+Ver `diseno_dashboard.md` para la propuesta de páginas y visuales.
 
 ## Buenas prácticas
 
