@@ -1,0 +1,98 @@
+// =====================================================================
+//  ETAPA 3 - MEDIDAS DAX BASE (Recencia, Frecuencia y Monto)
+//  Fecha de corte aprobada: 1998-05-07 (ultima venta + 1 dia)
+//
+//  Estas medidas NO incluyen puntajes 1-5, segmentos ni los 7 KPI.
+//  Crear en Power BI Desktop:
+//    Modelado -> Nueva tabla  (pegar el bloque Parametros)
+//    Modelado -> Nueva medida (pegar cada medida)
+// =====================================================================
+
+
+// ---------------------------------------------------------------------
+// 1. Tabla de parametros (una fila)
+// ---------------------------------------------------------------------
+Parametros =
+DATATABLE (
+    "Clave", STRING,
+    "FechaCorte", DATETIME,
+    {
+        { "Corte RFM", DATE ( 1998, 5, 7 ) }
+    }
+)
+
+
+// ---------------------------------------------------------------------
+// 2. Fecha de corte como medida
+// ---------------------------------------------------------------------
+Fecha de Corte =
+MIN ( Parametros[FechaCorte] )
+
+
+// ---------------------------------------------------------------------
+// 3. Recencia (dias)
+//    En una fila de cliente: dias desde su ultima compra al corte.
+//    En el total del modelo: dias desde la ultima venta global al corte.
+//    Cliente sin compras -> BLANK (se identifica con ISBLANK).
+// ---------------------------------------------------------------------
+Recencia (dias) =
+VAR Corte = [Fecha de Corte]
+VAR UltimaCompra = MAX ( Dim_Tiempo[Fecha_Completa] )
+RETURN
+    IF ( ISBLANK ( UltimaCompra ), BLANK (), DATEDIFF ( UltimaCompra, Corte, DAY ) )
+
+
+// ---------------------------------------------------------------------
+// 4. Recencia promedio por cliente (dias)
+//    Promedia solo clientes con compras; ignora los BLANK.
+// ---------------------------------------------------------------------
+Recencia Promedio (dias) =
+AVERAGEX (
+    VALUES ( Dim_Cliente[ID_Cliente] ),
+    [Recencia (dias)]
+)
+
+
+// ---------------------------------------------------------------------
+// 5. Frecuencia: pedidos distintos por cliente
+// ---------------------------------------------------------------------
+Frecuencia =
+DISTINCTCOUNT ( Hechos_Ventas[OrderID] )
+
+
+// ---------------------------------------------------------------------
+// 6. Monto total (USD)
+// ---------------------------------------------------------------------
+Monto Total =
+SUM ( Hechos_Ventas[Monto_Total] )
+
+
+// ---------------------------------------------------------------------
+// 7. Apoyo para validar el universo de clientes
+// ---------------------------------------------------------------------
+Clientes con Compras =
+DISTINCTCOUNT ( Hechos_Ventas[ID_Cliente] )
+
+Clientes Sin Compras =
+COUNTROWS (
+    FILTER (
+        ALL ( Dim_Cliente[ID_Cliente] ),
+        ISBLANK ( CALCULATE ( COUNTROWS ( Hechos_Ventas ) ) )
+    )
+)
+
+Clientes Totales =
+COUNTROWS ( ALL ( Dim_Cliente[ID_Cliente] ) )
+
+
+// ---------------------------------------------------------------------
+// 8. Valores esperados con los datos actuales (contraste SQL)
+//    Fecha de Corte            = 1998-05-07
+//    Clientes Totales          = 91
+//    Clientes con Compras      = 89
+//    Clientes Sin Compras      = 2   (FISSA 22, PARIS 57)
+//    Recencia (dias) total     = 1
+//    Recencia Promedio (dias)  = 52.56
+//    Frecuencia total          = 830
+//    Monto Total               = 1 265 793,0395
+// ---------------------------------------------------------------------
