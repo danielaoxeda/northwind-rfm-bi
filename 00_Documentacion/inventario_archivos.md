@@ -29,8 +29,9 @@ Los proyectos SSIS se versionan **solo como código fuente**: `Package.dtsx`,
 | `01_Fuente/northwind2024.bak` | 7,09 MB | Backup binario; respaldo de la fuente |
 | `02_Staging/Northwind_Staging.bak` | 5,18 MB | Backup binario; solo contiene `STG_*` |
 | `99_Archivo/artefactos/**` | 0,83 MB | `.vs`, `bin`, `obj`, `.ispac`, `*.user` |
+| `08_Backups/Northwind_DW.bak` | 0,72 MB | Backup validado del DW; respaldo del proyecto |
 
-Total fuera de Git: **13,10 MB**.
+Total fuera de Git: **13,82 MB**.
 
 ## 3. Comparación con los límites de GitHub
 
