@@ -1,32 +1,38 @@
 # Etapa 3 — Cálculo RFM, segmentación y dashboard
 
-Esta carpeta está reservada para los artefactos de la Etapa 3. Todavía no
-contiene scripts ni el modelo de Power BI.
+Artefactos de la Etapa 3. **Todavía no hay scripts ni modelo construidos**;
+esta estructura se preparó en la Fase 2 y se completará en la Fase 3, después
+de reconstruir y validar `Northwind_DW`.
 
-## Dependencias
+## Subcarpetas
 
-- `Northwind_DW` reconstruido y validado (scripts de `04_DataWarehouse` y
-  `06_Validacion`).
-- Fecha de corte aprobada (ver `00_Documentacion/decisiones.md`, D4).
+| Carpeta | Contenido previsto |
+|---|---|
+| `segmentacion_rfm/` | Scripts de cálculo de R, F, M y asignación de segmentos |
+| `validaciones_sql/` | Controles de cuadre del cálculo RFM contra el DW |
+| `medidas_dax/` | Medidas DAX documentadas para el modelo de Power BI |
+| `power_bi/` | Archivo `.pbix` y recursos del dashboard |
+| `evidencias/` | Capturas, resultados y consultas de sustento |
 
-## Trabajo previsto
+## Definiciones aprobadas
 
-1. `01_rfm_calculo.sql`: una fila por cliente con
-   - `R = DATEDIFF(DAY, MAX(Fecha_Completa), @fecha_corte)`
-   - `F = COUNT(DISTINCT OrderID)`
-   - `M = SUM(Monto_Total)`
-2. `02_rfm_segmentacion.sql`: puntajes 1–5 por quintiles (`NTILE`), puntaje
-   combinado y mapa de segmentos (VIP, Frecuentes, En riesgo, Inactivos) con
-   umbrales explícitos.
-3. `03_rfm_kpis.sql`: los siete KPIs definidos en la Etapa 1.
-4. `Northwind_RFM.pbix`: modelo estrella, medidas DAX y dashboard con filtros
-   por cliente, país, categoría y periodo.
-5. Actualización del informe con resultados, evidencias y recomendaciones.
+- **Recencia:** días entre la fecha de corte y el último pedido del cliente.
+- **Fecha de corte:** última fecha de venta + 1 día (`1998-05-07` con los
+  datos actuales).
+- **Frecuencia:** `COUNT(DISTINCT OrderID)` por cliente.
+- **Monto:** `SUM(Monto_Total)` por cliente.
+- **Moneda:** USD, sin conversión.
+- **Segmentos:** VIP, Frecuentes, En riesgo e Inactivos, con umbrales
+  explícitos y documentados.
 
-## Criterios
+## Requisitos de entrada
 
-- La frecuencia cuenta pedidos distintos, no líneas.
-- El monto es la suma de `Monto_Total`.
-- La recencia se mide contra una fecha de corte documentada, no contra la
-  fecha actual.
+1. `Northwind_DW` reconstruido (Fase 3).
+2. Validaciones de `06_Validacion` sin diferencias.
+3. Fecha de corte confirmada.
+
+## Reglas
+
 - No se modifican datos de origen: la Etapa 3 solo lee del DW.
+- No se generan datos simulados.
+- Toda cifra del informe debe poder reproducirse con un script del repositorio.
