@@ -1,0 +1,79 @@
+﻿Changed database context to 'Northwind_DW'.
+
+(89 rows affected)
+Clientes|R_Min|R_Max|R_Promedio|F_Min|F_Max|F_Promedio|M_Min|M_Max|M_Promedio
+--------|-----|-----|----------|-----|-----|----------|-----|-----|----------
+89|1|658|52.56|1|31|9.326|100.8000|110277.3050|14222.3937
+
+(1 rows affected)
+R_p20|R_p40|R_p60|R_p80|F_p20|F_p40|F_p60|F_p80|M_p20|M_p40|M_p60|M_p80
+-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----
+8.00|16.00|30.80|70.40|5.00|7.00|10.00|13.40|2975.56|5182.98|11445.41|19926.91
+
+(1 rows affected)
+
+(89 rows affected)
+
+(89 rows affected)
+Control|R8|R16|R31|R70|F5|F7|F10|F13|M3000|M5200|M11500|M20000
+-------|--|---|---|---|--|--|---|---|-----|-----|------|------
+Clientes en el limite|3|3|1|0|10|7|11|3|0|0|0|0
+
+(1 rows affected)
+Dimension|Puntaje|Clientes
+---------|-------|--------
+F|1|26
+F|2|15
+F|3|20
+F|4|10
+F|5|18
+M|1|18
+M|2|18
+M|3|18
+M|4|17
+M|5|18
+R|1|18
+R|2|17
+R|3|17
+R|4|17
+R|5|20
+
+(15 rows affected)
+Puntaje_Combinado|Clientes
+-----------------|--------
+3|8
+4|5
+5|9
+6|6
+7|6
+8|12
+9|5
+10|7
+11|5
+12|7
+13|6
+14|7
+15|6
+
+(13 rows affected)
+
+(89 rows affected)
+Segmento|Clientes|Pct|R_Promedio|F_Promedio|M_Promedio
+--------|--------|---|----------|----------|----------
+Inactivos|38|42.7|79.2|4.7|3248
+Frecuentes|19|21.3|16.1|11.8|19007
+VIP|17|19.1|7.0|16.6|35188
+En riesgo|15|16.9|82.9|9.7|12203
+
+(4 rows affected)
+Clasificados|Sin_Clasificar
+------------|--------------
+89|0
+
+(1 rows affected)
+ID_Cliente|ID_Cliente_Northwind|Nombre_Empresa|Pais|Segmento
+----------|--------------------|--------------|----|--------
+22|FISSA     |FISSA Fabrica Inter. Salchichas S.A.|Spain|Sin compras
+57|PARIS     |Paris spécialités|France|Sin compras
+
+(2 rows affected)
