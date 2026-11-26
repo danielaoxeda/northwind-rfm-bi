@@ -12,6 +12,7 @@ import re
 import subprocess
 import sys
 import zipfile
+import xml.etree.ElementTree as ET
 from decimal import Decimal
 
 BASE = os.path.dirname(os.path.abspath(__file__))
@@ -138,6 +139,31 @@ def main():
     # Verificacion del XLSX
     xlsx = os.path.join(BASE, "Northwind_DW.xlsx")
     with zipfile.ZipFile(xlsx) as z:
+        names = set(z.namelist())
+        # Todos los XML y relaciones deben estar bien formados.
+        xml_ok = True
+        for part in names:
+            if part.endswith(".xml") or part.endswith(".rels"):
+                try:
+                    ET.fromstring(z.read(part))
+                except ET.ParseError:
+                    xml_ok = False
+        check("XLSX: XML bien formado", True, xml_ok)
+
+        # Los destinos de las relaciones internas deben existir.
+        missing = []
+        for rels_name in [n for n in names if n.endswith(".rels")]:
+            base_dir = os.path.dirname(os.path.dirname(rels_name))
+            root = ET.fromstring(z.read(rels_name))
+            for rel in root:
+                target = rel.get("Target", "")
+                if target.startswith("http") or target.startswith("/"):
+                    continue
+                resolved = os.path.normpath(os.path.join(base_dir, target)).replace("\\", "/")
+                if resolved not in names:
+                    missing.append(resolved)
+        check("XLSX: relaciones internas resueltas", [], sorted(set(missing)))
+
         workbook = z.read("xl/workbook.xml").decode("utf-8")
         names = re.findall(r'<sheet name="([^"]+)"', workbook)
         check("XLSX: hojas", list(SCHEMA.keys()), names)
