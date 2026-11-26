@@ -1,0 +1,10 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="localhost.Northwind_Staging"
+  DTS:DTSID="{CA6A0A4B-FD39-457A-8FBE-4A192B1CA3BF}"
+  DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectionString="Data Source=localhost;Initial Catalog=Northwind_Staging;Integrated Security=True;Encrypt=False;TrustServerCertificate=True;Application Name=SSIS-ETL_Northwind_RFM-{CA6A0A4B-FD39-457A-8FBE-4A192B1CA3BF}localhost.Northwind_Staging;" />
+  </DTS:ObjectData>
+</DTS:ConnectionManager>
