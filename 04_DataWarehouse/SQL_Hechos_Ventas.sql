@@ -1,8 +1,23 @@
 ﻿/*
-Data Warehouse Northwind para análisis RFM
-SQL Server - DDL dimensional
-El script crea las dimensiones y la tabla de hechos descritas en el informe.
-La carga de datos desde Northwind_Staging corresponde al proceso ETL.
+=====================================================================
+ Data Warehouse Northwind para analisis RFM
+ SQL Server - DDL dimensional
+
+ Crea las dimensiones y la tabla de hechos descritas en el informe.
+
+ Claves:
+   - Dim_Cliente.ID_Cliente   : subrogada, INT IDENTITY.
+   - Dim_Producto.ID_Producto : subrogada, INT IDENTITY.
+   - Dim_Tiempo.ID_Tiempo     : inteligente, INT con formato AAAAMMDD
+                                (por ejemplo 19960704), SIN IDENTITY.
+   - Hechos_Ventas            : ID_Hecho_Venta BIGINT IDENTITY y clave
+                                natural UNIQUE (OrderID, ProductID).
+
+ El calendario continuo de Dim_Tiempo se genera en la carga
+ (04_DataWarehouse/02_Carga_Dimensiones.sql), no en este DDL.
+
+ La carga de datos desde Northwind_Staging corresponde al proceso ETL.
+=====================================================================
 */
 IF DB_ID(N'Northwind_DW') IS NULL
 BEGIN
@@ -32,7 +47,7 @@ IF OBJECT_ID(N'dbo.Dim_Tiempo', N'U') IS NULL
 BEGIN
     CREATE TABLE dbo.Dim_Tiempo
     (
-        ID_Tiempo       INT IDENTITY(1,1) NOT NULL,
+        ID_Tiempo       INT NOT NULL,
         Fecha_Completa  DATE NOT NULL,
         Dia             TINYINT NOT NULL,
         Mes             TINYINT NOT NULL,
@@ -41,6 +56,8 @@ BEGIN
         Anio            SMALLINT NOT NULL,
         CONSTRAINT PK_Dim_Tiempo PRIMARY KEY CLUSTERED (ID_Tiempo),
         CONSTRAINT UQ_Dim_Tiempo_Fecha UNIQUE (Fecha_Completa),
+        CONSTRAINT CK_Dim_Tiempo_ID
+            CHECK (ID_Tiempo = CONVERT(INT, CONVERT(CHAR(8), Fecha_Completa, 112))),
         CONSTRAINT CK_Dim_Tiempo_Dia CHECK (Dia BETWEEN 1 AND 31),
         CONSTRAINT CK_Dim_Tiempo_Mes CHECK (Mes BETWEEN 1 AND 12),
         CONSTRAINT CK_Dim_Tiempo_Trimestre CHECK (Trimestre BETWEEN 1 AND 4)
