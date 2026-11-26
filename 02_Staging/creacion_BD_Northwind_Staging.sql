@@ -1,9 +1,33 @@
-CREATE DATABASE Northwind_Staging;
+/*
+=====================================================================
+ ETAPA 2 - 2.2.3 STAGING AREA
+ Crea la base Northwind_Staging y las cuatro tablas espejo de Northwind.
+
+ - Sin claves primarias ni foraneas: la carga replica el origen y la
+   validacion se centraliza en la transformacion (2.2.4).
+ - Re-ejecutable: si las tablas existen se eliminan y se crean vacias.
+   No conserva datos: la extraccion se ejecuta despues.
+ - No crea datos ni modifica Northwind.
+=====================================================================
+*/
+
+IF DB_ID(N'Northwind_Staging') IS NULL
+BEGIN
+    CREATE DATABASE Northwind_Staging;
+END;
 GO
+
 USE Northwind_Staging;
 GO
 
-CREATE TABLE STG_Customers (
+-- Se eliminan en cualquier orden porque no hay claves foraneas.
+DROP TABLE IF EXISTS dbo.STG_OrderDetails;
+DROP TABLE IF EXISTS dbo.STG_Orders;
+DROP TABLE IF EXISTS dbo.STG_Products;
+DROP TABLE IF EXISTS dbo.STG_Customers;
+GO
+
+CREATE TABLE dbo.STG_Customers (
     CustomerID nchar(10),
     CompanyName nvarchar(80),
     ContactName nvarchar(60),
@@ -17,7 +41,7 @@ CREATE TABLE STG_Customers (
     Fax nvarchar(48)
 );
 
-CREATE TABLE STG_Orders (
+CREATE TABLE dbo.STG_Orders (
     OrderID int,
     CustomerID nchar(10),
     EmployeeID int,
@@ -34,7 +58,7 @@ CREATE TABLE STG_Orders (
     ShipCountry nvarchar(30)
 );
 
-CREATE TABLE STG_OrderDetails (
+CREATE TABLE dbo.STG_OrderDetails (
     OrderID int,
     ProductID int,
     UnitPrice money,
@@ -42,7 +66,7 @@ CREATE TABLE STG_OrderDetails (
     Discount real
 );
 
-CREATE TABLE STG_Products (
+CREATE TABLE dbo.STG_Products (
     ProductID int,
     ProductName nvarchar(80),
     SupplierID int,
@@ -54,3 +78,11 @@ CREATE TABLE STG_Products (
     ReorderLevel smallint,
     Discontinued bit
 );
+GO
+
+-- Volumetria esperada tras la extraccion (no valida datos aqui).
+SELECT 'STG_Customers' AS Tabla, COUNT(*) AS Filas FROM dbo.STG_Customers
+UNION ALL SELECT 'STG_Orders',      COUNT(*) FROM dbo.STG_Orders
+UNION ALL SELECT 'STG_OrderDetails', COUNT(*) FROM dbo.STG_OrderDetails
+UNION ALL SELECT 'STG_Products',    COUNT(*) FROM dbo.STG_Products;
+GO
