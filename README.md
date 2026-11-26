@@ -24,8 +24,9 @@ Frecuencia y Monto) sobre un Data Warehouse en esquema estrella.
 | Fase 3 — Unificación y corrección de scripts | Completada |
 | Fase 4 — Reconstrucción completa del DW | Completada |
 | Fase 5 — Validación final y exportación | Completada |
-| Fase 6 — Modelo Power BI y reglas RFM | **Completada** (esta fase) |
-| Etapa 3 — RFM y dashboard | Pendiente de aprobación de umbrales |
+| Fase 6 — Modelo Power BI y reglas RFM | Completada |
+| Fase 7 — Consolidación de RFM y KPI | **Completada** (esta fase) |
+| Etapa 3 — Modelo y dashboard Power BI | Pendiente de validación manual de DAX |
 
 El informe cubre hasta la sección 2.3.8. La Etapa 3 aún no está redactada.
 
@@ -176,25 +177,30 @@ en `07_Etapa3_RFM/validaciones_sql/00_consulta_referencia_rfm.sql`.
 
 ---
 
-## Modelo Power BI y reglas RFM (Fase 6)
+## RFM y KPI consolidados (Fase 7)
 
 | Archivo | Contenido |
 |---|---|
-| `07_Etapa3_RFM/modelo_power_bi.md` | Importación, relaciones, tabla de fechas, PBIP y trabajo colaborativo |
-| `07_Etapa3_RFM/medidas_dax/01_medidas_base.dax` | Medidas DAX de Recencia, Frecuencia y Monto |
-| `07_Etapa3_RFM/segmentacion_rfm/00_reglas_rfm.md` | Propuesta de puntajes 1–5 y segmentos |
-| `07_Etapa3_RFM/segmentacion_rfm/02_propuesta_umbrales.sql` | Distribución real, empates y segmentos |
-| `07_Etapa3_RFM/segmentacion_rfm/01_contraste_dax_sql.sql` | Contraste de las medidas con SQL |
-| `00_Documentacion/kpis_etapa1.md` | Viabilidad y fórmulas de los 7 KPI |
+| `07_Etapa3_RFM/segmentacion_rfm/00_reglas_rfm.md` | Límites aprobados, actividad y segmentos excluyentes |
+| `07_Etapa3_RFM/medidas_dax/` | Tabla por cliente, puntajes, segmentos y siete KPI en DAX |
+| `07_Etapa3_RFM/validaciones_sql/KPI_01_06_referencia.sql` | SQL de referencia KPI 1–6 |
+| `07_Etapa3_RFM/validaciones_sql/KPI_07_reactivacion_proxy.sql` | Aproximación histórica de reactivación |
+| `07_Etapa3_RFM/modelo_power_bi.md` | Pasos exactos para importar, relacionar, validar y guardar PBIP/PBIX |
+| `07_Etapa3_RFM/power_bi/diseno_dashboard.md` | Propuesta de páginas y visuales |
+| `00_Documentacion/kpis_etapa1.md` | Fórmulas, resultados y limitaciones de los siete KPI |
 
-Resultados: 89 clientes con compras y 2 sin compras (FISSA, PARIS); recencia
-1–658 días (promedio 52,56); 830 pedidos; monto `1 265 793,0395`. La propuesta
-de segmentos cubre a los 89 clientes sin solapamientos (17 VIP, 15 en riesgo,
-19 frecuentes, 38 inactivos), **pendiente de aprobación**.
+Resultados SQL: 89 compradores, 2 sin compras; 67 activos; 830 pedidos;
+monto `1 265 793,0395` USD. Segmentos: 17 VIP, 28 Activos, 22 Ocasionales,
+5 En riesgo, 2 Frecuentes y 15 Inactivos. VIP = **19,10 %** de compradores.
 
-Se evaluó PBIP y se recomienda adoptarlo al construir el dashboard, porque
-versiona las medidas en TMDL y mejora la colaboración en GitHub. No se generó
-ningún PBIP ni PBIX en esta fase.
+Las expresiones DAX están preparadas pero **no ejecutadas**. Se requiere abrir
+Power BI Desktop, construir el modelo, validar contra las evidencias SQL y
+guardar PBIP; luego producir el PBIX de entrega. No se generaron archivos
+PBIX/PBIP inválidos.
+
+Las referencias y resultados de los siete KPI están en
+`00_Documentacion/kpis_etapa1.md` y `07_Etapa3_RFM/evidencias/`. KPI 7 es solo
+un proxy de reactivación histórica y no mide el efecto de campañas.
 
 ---
 
