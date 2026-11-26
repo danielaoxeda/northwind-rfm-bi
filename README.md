@@ -20,8 +20,9 @@ Frecuencia y Monto) sobre un Data Warehouse en esquema estrella.
 |---|---|
 | Etapa 1 — Fundamentación y análisis | Documentada |
 | Etapa 2 — Diseño, ETL y calidad de datos | Documentada; scripts y proyectos SSIS recibidos |
-| Fase 2 — Entorno y organización | **Completada** (esta fase) |
-| Fase 3 — Reconstrucción del DW | Pendiente |
+| Fase 2 — Entorno y organización | Completada |
+| Fase 3 — Unificación y corrección de scripts | **Completada** (esta fase) |
+| Fase 4 — Reconstrucción completa del DW | Pendiente de autorización |
 | Etapa 3 — RFM y dashboard | Pendiente |
 
 El informe cubre hasta la sección 2.3.8. La Etapa 3 aún no está redactada.
@@ -42,9 +43,10 @@ El informe cubre hasta la sección 2.3.8. La Etapa 3 aún no está redactada.
 | SSIS | **No disponible** |
 | Power BI Desktop | Instalado |
 
-Bases existentes al inicio de la Fase 2: solo las del sistema (`master`,
-`tempdb`, `model`, `msdb`). `Northwind`, `Northwind_Staging` y `Northwind_DW`
-aún no están restauradas.
+Bases al inicio de la Fase 3: `Northwind` restaurada desde el backup (SQL
+Server 2019, actualizada a compatibilidad 170) y `Northwind_Staging` recreada y
+poblada durante las pruebas de idempotencia. `Northwind_DW` se creó y se
+eliminó tras validar el DDL: la reconstrucción completa queda para la Fase 4.
 
 ---
 
@@ -68,11 +70,15 @@ aún no están restauradas.
 |---|---|
 | `01_Fuente/northwind2024.bak` | Backup de `Northwind` (SQL Server 2019, externo a Git) |
 | `02_Staging/Northwind_Staging.bak` | Backup de staging, solo tablas `STG_*` (SQL Server 2025, externo a Git) |
-| `02_Staging/creacion_BD_Northwind_Staging.sql` | Crea la base de staging y las 4 tablas espejo |
+| `02_Staging/creacion_BD_Northwind_Staging.sql` | Crea la base de staging y las 4 tablas espejo (idempotente) |
+| `02_Staging/Extraccion_2_2_2_T-SQL.sql` | Extracción T-SQL equivalente al paquete SSIS |
 | `03_Transformacion/ETL_2_2_4_Transformacion.sql` | Genera `TRF_*` y `TRF_Rechazados`; controles de cuadre |
-| `04_DataWarehouse/SQL_Hechos_Ventas.sql` | DDL de dimensiones y `Hechos_Ventas` |
+| `04_DataWarehouse/SQL_Hechos_Ventas.sql` | DDL de dimensiones y `Hechos_Ventas` (`ID_Tiempo` AAAAMMDD) |
+| `04_DataWarehouse/02_Carga_Dimensiones.sql` | Carga dimensiones y calendario continuo (reproducible) |
+| `04_DataWarehouse/03_Carga_Hechos.sql` | Carga hechos con integridad referencial (reproducible) |
 | `06_Validacion/SQL_2_2_6_Validacion_Nicole.sql` | Conteos, huérfanos y suma total |
 | `06_Validacion/SQL_2_3_Integridad_Calidad_Datos.sql` | Integridad, duplicados, cálculos y reconciliación |
+| `00_Ejecutar_Reconstruccion.sql` | Script maestro con el orden de ejecución completo |
 
 ---
 
@@ -90,28 +96,32 @@ Esquema estrella con grano por línea de pedido `(OrderID, ProductID)`.
 `Monto_Total = Precio_Unitario × Cantidad × (1 − Descuento)`, redondeado a
 4 decimales. Los importes se conservan en USD.
 
-> El DDL actual todavía define `ID_Tiempo` como IDENTITY. La corrección
-> corresponde a la Fase 3 y está registrada en `00_Documentacion/decisiones.md`.
+> El DDL ya aplica la clave `AAAAMMDD` sin `IDENTITY` y una restricción
+> `CK_Dim_Tiempo_ID` que la garantiza. Ver `00_Documentacion/cambios_fase3.md`.
 
 ---
 
-## Procedimiento de reconstrucción (previsto para Fase 3)
+## Procedimiento de reconstrucción (Fase 4)
 
-SSIS no está disponible, por lo que la extracción y la carga se harán con
-scripts T-SQL. El orden será:
+SSIS no está disponible, por lo que la extracción y la carga se hacen con
+scripts T-SQL. El script maestro `00_Ejecutar_Reconstruccion.sql` ejecuta el
+orden completo:
 
 1. Restaurar `01_Fuente/northwind2024.bak` como base `Northwind`
-   (`RESTORE ... WITH MOVE`, por las rutas del servidor de origen).
-2. Ejecutar `02_Staging/creacion_BD_Northwind_Staging.sql`.
-3. Poblar el staging: restaurar `02_Staging/Northwind_Staging.bak` o ejecutar
-   el script de extracción T-SQL (a crear).
-4. Ejecutar `03_Transformacion/ETL_2_2_4_Transformacion.sql`.
-5. Ajustar y ejecutar el DDL de `04_DataWarehouse` (clave `AAAAMMDD`, sin
-   IDENTITY, calendario continuo) y la carga T-SQL (a crear).
-6. Ejecutar las validaciones de `06_Validacion`.
-7. Generar un backup de `Northwind_DW`.
+   (`RESTORE ... WITH MOVE`; la copia debe ser legible por la cuenta del
+   servicio `NT Service\MSSQLSERVER`).
+2. Crear/recrear el staging con `02_Staging/creacion_BD_Northwind_Staging.sql`.
+3. Extraer con `02_Staging/Extraccion_2_2_2_T-SQL.sql`.
+4. Transformar con `03_Transformacion/ETL_2_2_4_Transformacion.sql`.
+5. Crear el DW con `04_DataWarehouse/SQL_Hechos_Ventas.sql`.
+6. Cargar dimensiones y calendario con `04_DataWarehouse/02_Carga_Dimensiones.sql`.
+7. Cargar hechos con `04_DataWarehouse/03_Carga_Hechos.sql`.
+8. Validar con los scripts de `06_Validacion`.
+9. Generar un backup de `Northwind_DW`.
 
-Ninguno de estos pasos se ha ejecutado todavía: requieren autorización expresa.
+La reconstrucción completa **no se ha ejecutado** en esta fase: los scripts se
+validaron por compilación (`SET NOEXEC ON`) y con pruebas de idempotencia del
+staging y la transformación. Requiere autorización expresa para la Fase 4.
 
 ---
 
@@ -121,7 +131,7 @@ Ninguno de estos pasos se ha ejecutado todavía: requieren autorización expresa
 - Rama de trabajo: `feature/consolidacion-dw`.
 - Commits pequeños, en español, un cambio lógico por commit.
 - Sin `push` hasta autorización.
-- `origin` pendiente: no se recibió una URL válida del repositorio.
+- Remoto `origin`: `https://github.com/danielaoxeda/northwind-rfm-bi.git`.
 
 ### Archivos fuera de Git
 
