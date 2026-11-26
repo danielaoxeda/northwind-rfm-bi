@@ -22,7 +22,8 @@ Frecuencia y Monto) sobre un Data Warehouse en esquema estrella.
 | Etapa 2 — Diseño, ETL y calidad de datos | Documentada; scripts y proyectos SSIS recibidos |
 | Fase 2 — Entorno y organización | Completada |
 | Fase 3 — Unificación y corrección de scripts | Completada |
-| Fase 4 — Reconstrucción completa del DW | **Completada** (esta fase) |
+| Fase 4 — Reconstrucción completa del DW | Completada |
+| Fase 5 — Validación final y exportación | **Completada** (esta fase) |
 | Etapa 3 — RFM y dashboard | Pendiente |
 
 El informe cubre hasta la sección 2.3.8. La Etapa 3 aún no está redactada.
@@ -62,6 +63,7 @@ veces con resultado idéntico y se generó un backup validado en
 06_Validacion/      Controles de integridad, reconciliación y evidencias
 07_Etapa3_RFM/      Cálculo RFM, DAX, Power BI y evidencias
 08_Backups/         Backup de Northwind_DW (no versionado)
+09_Exportacion/     XLSX y CSV para Power BI, diccionario e instrucciones
 99_Archivo/         Artefactos de compilación e IDE (no versionados)
 ```
 
@@ -147,6 +149,32 @@ La reconstrucción ya se ejecutó y validó. Puede repetirse sin duplicar datos.
 
 ---
 
+## Exportación para Power BI (Fase 5)
+
+En `09_Exportacion/`:
+
+| Archivo | Contenido |
+|---|---|
+| `Northwind_DW.xlsx` | Cuatro hojas: `Dim_Cliente`, `Dim_Producto`, `Dim_Tiempo`, `Hechos_Ventas` |
+| `csv/*.csv` | Las mismas cuatro tablas en CSV UTF-8 con BOM |
+| `diccionario_datos.md` | Columnas, tipos, claves y descripciones |
+| `power_bi_instrucciones.md` | Importación, relaciones, tabla de fechas y actualización |
+| `exportar_datos.ps1` / `generar_xlsx_csv.py` | Regeneran la exportación sin dependencias externas |
+| `verificar_exportacion.py` | Compara CSV/XLSX contra SQL Server |
+
+Verificación real: 91 / 77 / 672 / 2155 filas, monto `1 265 793,0395`,
+830 pedidos, sin huérfanos ni claves duplicadas. Evidencia en
+`09_Exportacion/evidencias/`.
+
+Para compartir con el equipo, basta versionar `09_Exportacion/` (menos de
+1 MB) o enviar `Northwind_DW.xlsx`, que es autocontenido. Detalle en
+`09_Exportacion/README.md`.
+
+Consultas de referencia R, F y M (fecha de corte `1998-05-07`, sin puntajes)
+en `07_Etapa3_RFM/validaciones_sql/00_consulta_referencia_rfm.sql`.
+
+---
+
 ## Repositorio
 
 - Rama principal: `main` (entrega original sin reorganizar).
@@ -163,6 +191,7 @@ Por tamaño o por ser artefactos generados:
 - `02_Staging/Northwind_Staging.bak` (5,2 MB)
 - `08_Backups/Northwind_DW.bak` (0,72 MB, verificado)
 - `99_Archivo/artefactos/**` (`.vs`, `bin`, `obj`, `.ispac`, `*.user`)
+- `09_Exportacion/_tmp/**` (JSON intermedios, se regeneran)
 
 Se conservan en el equipo local y deben respaldarse por separado. Ver
 `00_Documentacion/inventario_archivos.md`.
