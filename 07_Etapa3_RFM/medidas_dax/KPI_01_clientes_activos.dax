@@ -1,0 +1,35 @@
+KPI 1 - Clientes activos =
+VAR Corte = [Fecha de Corte]
+VAR ClientesConCompra =
+    FILTER (
+        ADDCOLUMNS (
+            VALUES ( Dim_Cliente[ID_Cliente] ),
+            "__Ultima", CALCULATE ( MAX ( Dim_Tiempo[Fecha_Completa] ) )
+        ),
+        NOT ISBLANK ( [__Ultima] )
+    )
+VAR Activos =
+    COUNTROWS (
+        FILTER ( ClientesConCompra, DATEDIFF ( [__Ultima], Corte, DAY ) <= 60 )
+    )
+RETURN
+    Activos
+
+KPI 1 - % activos =
+DIVIDE ( [KPI 1 - Clientes activos], [Clientes con Compras] )
+
+KPI 1 - Recencia promedio activos =
+VAR Corte = [Fecha de Corte]
+VAR PorCliente =
+    ADDCOLUMNS (
+        VALUES ( Dim_Cliente[ID_Cliente] ),
+        "__R", [Recencia (dias)]
+    )
+RETURN
+    AVERAGEX (
+        FILTER ( PorCliente, NOT ISBLANK ( [__R] ) && [__R] <= 60 ),
+        [__R]
+    )
+
+// Definición: último pedido a 60 días inclusive del corte.
+// Meta original: promedio de recencia menor a 60 días.

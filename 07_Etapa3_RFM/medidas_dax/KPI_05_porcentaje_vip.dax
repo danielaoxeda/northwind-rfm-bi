@@ -1,0 +1,21 @@
+KPI 5 - Clientes con compras =
+COUNTROWS (
+    FILTER (
+        VALUES ( Cliente_RFM[ID_Cliente] ),
+        Cliente_RFM[Frecuencia_Pedidos] > 0
+    )
+)
+
+KPI 5 - Clientes VIP =
+COUNTROWS (
+    FILTER (
+        VALUES ( Cliente_RFM[ID_Cliente] ),
+        Cliente_RFM[Frecuencia_Pedidos] > 0
+            && Cliente_RFM[Segmento] = "VIP"
+    )
+)
+
+KPI 5 - Porcentaje VIP =
+DIVIDE ( [KPI 5 - Clientes VIP], [KPI 5 - Clientes con compras] )
+
+// Denominador aprobado: clientes con compras (no los 91 clientes del DW).

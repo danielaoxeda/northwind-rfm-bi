@@ -1,0 +1,78 @@
+KPI 7 - Clientes reactivados proxy =
+VAR Clientes = VALUES ( Dim_Cliente[ID_Cliente] )
+RETURN
+    COUNTROWS (
+        FILTER (
+            ADDCOLUMNS (
+                Clientes,
+                "__Reactivado",
+                    VAR VentasCliente =
+                        CALCULATETABLE (
+                            SUMMARIZE (
+                                Hechos_Ventas,
+                                Dim_Tiempo[Fecha_Completa],
+                                "PedidosDia", DISTINCTCOUNT ( Hechos_Ventas[OrderID] )
+                            ),
+                            REMOVEFILTERS ( Dim_Tiempo )
+                        )
+                    VAR ConAnterior =
+                        ADDCOLUMNS (
+                            VentasCliente,
+                            "__Prev",
+                                VAR FechaActual = Dim_Tiempo[Fecha_Completa]
+                                RETURN
+                                    MAXX (
+                                        FILTER (
+                                            VentasCliente,
+                                            Dim_Tiempo[Fecha_Completa] < FechaActual
+                                        ),
+                                        Dim_Tiempo[Fecha_Completa]
+                                    )
+                        )
+                    RETURN
+                        COUNTROWS (
+                            FILTER (
+                                ConAnterior,
+                                NOT ISBLANK ( [__Prev] )
+                                    && [__Prev] <= DATE ( 1998, 3, 7 )
+                                    && DATEDIFF ( [__Prev], Dim_Tiempo[Fecha_Completa], DAY ) > 60
+                                    && DATEDIFF ( [__Prev], Dim_Tiempo[Fecha_Completa], DAY ) <= 120
+                            )
+                        ) > 0
+            ),
+            [__Reactivado]
+        )
+    )
+
+KPI 7 - Clientes con brecha elegible =
+VAR Clientes = VALUES ( Dim_Cliente[ID_Cliente] )
+RETURN
+    COUNTROWS (
+        FILTER (
+            ADDCOLUMNS (
+                Clientes,
+                "__Brecha",
+                    VAR VentasCliente =
+                        CALCULATETABLE (
+                            SUMMARIZE (
+                                Hechos_Ventas,
+                                Dim_Tiempo[Fecha_Completa],
+                                "PedidosDia", DISTINCTCOUNT ( Hechos_Ventas[OrderID] )
+                            ),
+                            REMOVEFILTERS ( Dim_Tiempo )
+                        )
+                    RETURN
+                        COUNTROWS (
+                            FILTER ( VentasCliente, Dim_Tiempo[Fecha_Completa] <= DATE ( 1998, 3, 7 ) )
+                        ) > 0
+            ),
+            [__Brecha]
+        )
+    )
+
+KPI 7 - Tasa reactivacion proxy =
+DIVIDE ( [KPI 7 - Clientes reactivados proxy], [KPI 7 - Clientes con brecha elegible] )
+
+// Proxy historico: cliente con siguiente compra 61-120 dias despues de
+// una compra anterior. No demuestra efecto de campaña ni causalidad.
+// SQL de referencia en KPI_07_reactivacion_proxy.sql.

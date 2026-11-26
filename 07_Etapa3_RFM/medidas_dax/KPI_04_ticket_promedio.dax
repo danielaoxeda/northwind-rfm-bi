@@ -1,0 +1,10 @@
+KPI 4 - Ticket promedio USD =
+DIVIDE ( [Monto Total], [Frecuencia] )
+
+// Meta reformulada: USD 500 por pedido.
+// Es una nueva meta en la moneda original, NO una conversion de S/ 500.
+KPI 4 - Cumple meta USD 500 =
+IF ( [KPI 4 - Ticket promedio USD] >= 500, 1, 0 )
+
+KPI 4 - Brecha contra USD 500 =
+[KPI 4 - Ticket promedio USD] - 500

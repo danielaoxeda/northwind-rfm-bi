@@ -1,0 +1,37 @@
+KPI 2 - Clientes con 3+ pedidos Q1 =
+VAR InicioQ1 = DATE ( 1998, 1, 1 )
+VAR FinQ1 = DATE ( 1998, 3, 31 )
+RETURN
+    COUNTROWS (
+        FILTER (
+            VALUES ( Dim_Cliente[ID_Cliente] ),
+            CALCULATE (
+                DISTINCTCOUNT ( Hechos_Ventas[OrderID] ),
+                DATESBETWEEN ( Dim_Tiempo[Fecha_Completa], InicioQ1, FinQ1 )
+            ) >= 3
+        )
+    )
+
+KPI 2 - Clientes con 3+ pedidos Q1 año anterior =
+VAR InicioQ1 = DATE ( 1997, 1, 1 )
+VAR FinQ1 = DATE ( 1997, 3, 31 )
+RETURN
+    COUNTROWS (
+        FILTER (
+            VALUES ( Dim_Cliente[ID_Cliente] ),
+            CALCULATE (
+                DISTINCTCOUNT ( Hechos_Ventas[OrderID] ),
+                DATESBETWEEN ( Dim_Tiempo[Fecha_Completa], InicioQ1, FinQ1 )
+            ) >= 3
+        )
+    )
+
+KPI 2 - Variación clientes 3+ pedidos =
+DIVIDE (
+    [KPI 2 - Clientes con 3+ pedidos Q1]
+        - [KPI 2 - Clientes con 3+ pedidos Q1 año anterior],
+    [KPI 2 - Clientes con 3+ pedidos Q1 año anterior]
+)
+
+// Compara Q1 completo de 1998 con Q1 completo de 1997.
+// Misma longitud (90 días); evita comparar 1998 parcial con 1997 completo.

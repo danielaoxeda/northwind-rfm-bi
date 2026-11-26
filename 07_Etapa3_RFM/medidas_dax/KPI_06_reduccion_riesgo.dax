@@ -1,0 +1,72 @@
+KPI 6 - Clientes en riesgo periodo 1997 =
+VAR Inicio = DATE ( 1997, 7, 5 )
+VAR Corte = DATE ( 1997, 12, 31 )
+VAR Clientes = VALUES ( Dim_Cliente[ID_Cliente] )
+RETURN
+    COUNTROWS (
+        FILTER (
+            ADDCOLUMNS (
+                Clientes,
+                "__Ultima",
+                    CALCULATE (
+                        MAX ( Dim_Tiempo[Fecha_Completa] ),
+                        DATESBETWEEN ( Dim_Tiempo[Fecha_Completa], Inicio, Corte )
+                    ),
+                "__F",
+                    CALCULATE (
+                        DISTINCTCOUNT ( Hechos_Ventas[OrderID] ),
+                        DATESBETWEEN ( Dim_Tiempo[Fecha_Completa], Inicio, Corte )
+                    ),
+                "__M",
+                    CALCULATE (
+                        SUM ( Hechos_Ventas[Monto_Total] ),
+                        DATESBETWEEN ( Dim_Tiempo[Fecha_Completa], Inicio, Corte )
+                    )
+            ),
+            NOT ISBLANK ( [__Ultima] )
+                && DATEDIFF ( [__Ultima], Corte, DAY ) > 60
+                && ( [__F] >= 3 || [__M] >= 3000 )
+        )
+    )
+
+KPI 6 - Clientes en riesgo periodo 1996 =
+VAR Inicio = DATE ( 1996, 7, 5 )
+VAR Corte = DATE ( 1996, 12, 31 )
+VAR Clientes = VALUES ( Dim_Cliente[ID_Cliente] )
+RETURN
+    COUNTROWS (
+        FILTER (
+            ADDCOLUMNS (
+                Clientes,
+                "__Ultima",
+                    CALCULATE (
+                        MAX ( Dim_Tiempo[Fecha_Completa] ),
+                        DATESBETWEEN ( Dim_Tiempo[Fecha_Completa], Inicio, Corte )
+                    ),
+                "__F",
+                    CALCULATE (
+                        DISTINCTCOUNT ( Hechos_Ventas[OrderID] ),
+                        DATESBETWEEN ( Dim_Tiempo[Fecha_Completa], Inicio, Corte )
+                    ),
+                "__M",
+                    CALCULATE (
+                        SUM ( Hechos_Ventas[Monto_Total] ),
+                        DATESBETWEEN ( Dim_Tiempo[Fecha_Completa], Inicio, Corte )
+                    )
+            ),
+            NOT ISBLANK ( [__Ultima] )
+                && DATEDIFF ( [__Ultima], Corte, DAY ) > 60
+                && ( [__F] >= 3 || [__M] >= 3000 )
+        )
+    )
+
+KPI 6 - Variacion riesgo periodos comparables =
+DIVIDE (
+    [KPI 6 - Clientes en riesgo periodo 1997]
+        - [KPI 6 - Clientes en riesgo periodo 1996],
+    [KPI 6 - Clientes en riesgo periodo 1996]
+)
+
+// Dos ventanas iguales de 180 dias: 1996-07-05..1996-12-31 y
+// 1997-07-05..1997-12-31. R anclada al fin de cada ventana;
+// riesgo: R>60 y F>=3 o M>=USD 3,000 dentro de esa ventana.

@@ -1,0 +1,26 @@
+// Power BI Desktop -> Modelado -> Nueva tabla.
+// Tabla calculada al corte aprobado; refrescar el modelo para recalcular.
+// La tabla incluye los clientes sin compras, con R/F/M vacios o cero.
+Cliente_RFM =
+VAR Corte = DATE ( 1998, 5, 7 )
+VAR Base =
+    ADDCOLUMNS (
+        VALUES ( Dim_Cliente[ID_Cliente] ),
+        "ID_Cliente_Northwind", CALCULATE ( SELECTEDVALUE ( Dim_Cliente[ID_Cliente_Northwind] ) ),
+        "Nombre_Empresa", CALCULATE ( SELECTEDVALUE ( Dim_Cliente[Nombre_Empresa] ) ),
+        "Pais", CALCULATE ( SELECTEDVALUE ( Dim_Cliente[Pais] ) ),
+        "Ultima_Compra", CALCULATE ( MAX ( Dim_Tiempo[Fecha_Completa] ) ),
+        "Frecuencia_Pedidos", CALCULATE ( DISTINCTCOUNT ( Hechos_Ventas[OrderID] ) ),
+        "Monto_Total", CALCULATE ( SUM ( Hechos_Ventas[Monto_Total] ) )
+    )
+RETURN
+    ADDCOLUMNS (
+        Base,
+        "Recencia_Dias",
+            VAR Ultima = [Ultima_Compra]
+            RETURN IF ( ISBLANK ( Ultima ), BLANK (), DATEDIFF ( Ultima, Corte, DAY ) )
+    )
+
+// Mantener esta tabla desconectada de las dimensiones. KPI de valores totales
+// se calculan desde Hechos_Ventas; esta tabla sirve para puntuación/segmento
+// por cliente. Relaciones a Hechos no son necesarias para la lógica RFM.

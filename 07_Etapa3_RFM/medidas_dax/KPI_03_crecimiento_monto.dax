@@ -1,0 +1,36 @@
+KPI 3 - Monto periodo reciente 300 dias =
+VAR ClientesFrecuentes =
+    CALCULATETABLE (
+        VALUES ( Cliente_RFM[ID_Cliente] ),
+        Cliente_RFM[Segmento] = "Frecuente"
+    )
+RETURN
+    CALCULATE (
+        [Monto Total],
+        TREATAS ( ClientesFrecuentes, Hechos_Ventas[ID_Cliente] ),
+        DATESBETWEEN ( Dim_Tiempo[Fecha_Completa], DATE ( 1997, 7, 11 ), DATE ( 1998, 5, 6 ) )
+    )
+
+KPI 3 - Monto periodo previo comparable 300 dias =
+VAR ClientesFrecuentes =
+    CALCULATETABLE (
+        VALUES ( Cliente_RFM[ID_Cliente] ),
+        Cliente_RFM[Segmento] = "Frecuente"
+    )
+RETURN
+    CALCULATE (
+        [Monto Total],
+        TREATAS ( ClientesFrecuentes, Hechos_Ventas[ID_Cliente] ),
+        DATESBETWEEN ( Dim_Tiempo[Fecha_Completa], DATE ( 1996, 7, 11 ), DATE ( 1997, 5, 6 ) )
+    )
+
+KPI 3 - Crecimiento monto 365 dias =
+    DIVIDE (
+    [KPI 3 - Monto periodo reciente 300 dias]
+        - [KPI 3 - Monto periodo previo comparable 300 dias],
+    [KPI 3 - Monto periodo previo comparable 300 dias]
+)
+
+// Meta original: +15% anual del segmento Frecuentes.
+// Se usan 300 dias completos comparables (Jul 11-May 6) porque el DW no
+// contiene dos años completos. Requiere filtro de segmento Frecuentes.
