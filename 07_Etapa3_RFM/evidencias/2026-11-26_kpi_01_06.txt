@@ -1,0 +1,44 @@
+﻿Changed database context to 'Northwind_DW'.
+Clientes_Con_Compras|Activos_60d|Recencia_Promedio_Activos
+--------------------|-----------|-------------------------
+89|67|19.64
+
+(1 rows affected)
+Periodo|Clientes_3mas_Pedidos|Pedidos
+-------|---------------------|-------
+Q1_1997|8|92
+Q1_1998|30|182
+
+(2 rows affected)
+Periodo|Monto_USD|Pedidos
+-------|---------|-------
+Previo_1996-07-11_a_1997-05-06|51380.0200|30
+Reciente_1997-07-11_a_1998-05-06|38656.6275|31
+
+(2 rows affected)
+Monto_USD|Pedidos|Ticket_USD|Meta_USD|Cumple
+---------|-------|----------|--------|------
+1265793.0395|830|1525.051854|500.0000|1
+
+(1 rows affected)
+Segmento|Clientes
+--------|--------
+Activo|28
+En riesgo|5
+Frecuente|2
+Inactivo|15
+Ocasional|22
+VIP|17
+
+(6 rows affected)
+Clientes_VIP|Clientes_Con_Compras|Porcentaje_VIP
+------------|--------------------|--------------
+17|89|19.101123595505
+
+(1 rows affected)
+Periodo|Clientes_Riesgo|Clientes_Con_Compras_Trimestre
+-------|---------------|------------------------------
+180d_1996|7|67
+180d_1997|6|78
+
+(2 rows affected)

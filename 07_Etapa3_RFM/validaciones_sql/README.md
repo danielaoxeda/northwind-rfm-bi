@@ -1,24 +1,26 @@
-# Validaciones SQL de la Etapa 3
+# Validaciones SQL de RFM y los siete KPI
 
-Controles para asegurar que el cálculo RFM sea consistente con el DW:
+Consultas de referencia reales contra `Northwind_DW`. Son el oráculo para
+contrastar DAX manualmente en Power BI Desktop; no significan que DAX se haya
+ejecutado.
 
-- Total de clientes = clientes con ventas + clientes sin compras.
-- `SUM(Monto)` por cliente = `SUM(Monto_Total)` del DW.
-- `SUM(Frecuencia)` = pedidos distintos del DW.
-- Recencia mínima ≥ 1 y máxima ≤ rango analizado.
-- Ningún cliente con compras y R, F o M nulos.
-- Distribución de segmentos y porcentaje por segmento.
+| Archivo | Contenido |
+|---|---|
+| `00_consulta_referencia_rfm.sql` | R/F/M al corte 1998-05-07; 89 compradores y 2 sin compras |
+| `KPI_01_06_referencia.sql` | Referencias SQL para KPI 1–6 |
+| `KPI_07_reactivacion_proxy.sql` | Proxy histórico para KPI 7, con detalle de eventos |
 
-## Consulta de referencia
+Resultados:
 
-`00_consulta_referencia_rfm.sql` calcula R, F y M por cliente usando la fecha
-de corte **1998-05-07** (última venta + 1 día), sin puntajes ni segmentos:
+- KPI 1: 67 activos R≤60; recencia promedio activa 19,64 días.
+- KPI 2: 8 clientes con ≥3 pedidos en Q1-1997, 30 en Q1-1998 (+275 %).
+- KPI 3: USD 51 380,0200 vs USD 38 656,6275 en dos ventanas de 300 días;
+  crecimiento −24,76 % para la cohorte actualmente Frecuente.
+- KPI 4: ticket USD 1 525,051854; supera la meta reformulada USD 500.
+- KPI 5: 17/89 VIP = 19,10 %.
+- KPI 6: 7 vs 6 clientes de riesgo en ventanas comparables de 180 días;
+  variación −14,29 %.
+- KPI 7: 69/89 = 77,53 % de reactivación proxy histórica; no mide campañas.
 
-1. Clientes con compras (89).
-2. Clientes sin compras, identificados aparte: **FISSA (22)** y **PARIS (57)**.
-3. Vista combinada de los 91 clientes con indicador `Tiene_Compras`.
-4. Controles de cuadre (91 / 89 / 2 / 830 / 1 265 793,0395 / recencia 1–658).
-
-Resultado real guardado en `07_Etapa3_RFM/evidencias/2026-11-26_referencia_rfm.txt`.
-
-Pendiente para la Etapa 3: puntajes por quintiles y asignación de segmentos.
+Resultados SQL completos en `../evidencias/2026-11-26_kpi_01_06.txt` y
+`../evidencias/2026-11-26_kpi_07_reactivacion.txt`.
