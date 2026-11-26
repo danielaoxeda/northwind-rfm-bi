@@ -123,7 +123,8 @@ SELECT 'Northwind' AS Sistema,
        (SELECT COUNT(*) FROM Northwind.dbo.Customers)    AS Clientes,
        (SELECT COUNT(*) FROM Northwind.dbo.Products)     AS Productos,
        (SELECT COUNT(*) FROM Northwind.dbo.OrderDetails) AS Lineas,
-       (SELECT SUM(CAST(UnitPrice AS DECIMAL(19,4)) * Quantity * (1 - CAST(Discount AS DECIMAL(9,6))))
+       (SELECT SUM(CAST(ROUND(CAST(UnitPrice AS DECIMAL(19,4)) * Quantity
+                              * (1 - CAST(Discount AS DECIMAL(9,6))), 4) AS DECIMAL(19,4)))
         FROM Northwind.dbo.OrderDetails)                 AS Monto_Total
 UNION ALL
 SELECT 'Northwind_DW',
@@ -136,7 +137,8 @@ SELECT 'Northwind_DW',
 WITH Origen AS (
   SELECT UPPER(LTRIM(RTRIM(o.CustomerID))) AS Cliente,
          COUNT(DISTINCT o.OrderID) AS Pedidos,
-         SUM(CAST(d.UnitPrice AS DECIMAL(19,4)) * d.Quantity * (1 - CAST(d.Discount AS DECIMAL(9,6)))) AS Monto
+         SUM(CAST(ROUND(CAST(d.UnitPrice AS DECIMAL(19,4)) * d.Quantity
+                        * (1 - CAST(d.Discount AS DECIMAL(9,6))), 4) AS DECIMAL(19,4))) AS Monto
   FROM Northwind.dbo.Orders o
   JOIN Northwind.dbo.OrderDetails d ON d.OrderID = o.OrderID
   GROUP BY UPPER(LTRIM(RTRIM(o.CustomerID)))
@@ -156,4 +158,24 @@ FULL JOIN Destino d ON d.Cliente = o.Cliente
 WHERE d.Cliente IS NULL OR o.Cliente IS NULL
    OR o.Pedidos <> d.Pedidos
    OR ABS(o.Monto - d.Monto) > 0.01;
+GO
+
+/* ------------------------------------------------------------------
+   2.3.9  Calendario continuo y clave de tiempo
+   (esperado: 0 filas en ambos controles; -1 indica tabla vacia)
+   ------------------------------------------------------------------ */
+USE Northwind_DW;
+GO
+
+-- ID_Tiempo debe ser exactamente AAAAMMDD.
+SELECT 'ID_Tiempo distinto de AAAAMMDD' AS Control, COUNT(*) AS Filas
+FROM Dim_Tiempo
+WHERE ID_Tiempo <> CONVERT(INT, CONVERT(CHAR(8), Fecha_Completa, 112));
+
+-- Sin huecos entre la primera y la ultima fecha.
+SELECT 'Huecos en Dim_Tiempo' AS Control,
+       CASE WHEN COUNT(*) = 0 THEN -1
+            ELSE DATEDIFF(DAY, MIN(Fecha_Completa), MAX(Fecha_Completa)) + 1 - COUNT(*)
+       END AS Filas
+FROM Dim_Tiempo;
 GO
