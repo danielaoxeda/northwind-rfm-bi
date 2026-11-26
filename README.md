@@ -21,8 +21,8 @@ Frecuencia y Monto) sobre un Data Warehouse en esquema estrella.
 | Etapa 1 — Fundamentación y análisis | Documentada |
 | Etapa 2 — Diseño, ETL y calidad de datos | Documentada; scripts y proyectos SSIS recibidos |
 | Fase 2 — Entorno y organización | Completada |
-| Fase 3 — Unificación y corrección de scripts | **Completada** (esta fase) |
-| Fase 4 — Reconstrucción completa del DW | Pendiente de autorización |
+| Fase 3 — Unificación y corrección de scripts | Completada |
+| Fase 4 — Reconstrucción completa del DW | **Completada** (esta fase) |
 | Etapa 3 — RFM y dashboard | Pendiente |
 
 El informe cubre hasta la sección 2.3.8. La Etapa 3 aún no está redactada.
@@ -43,10 +43,10 @@ El informe cubre hasta la sección 2.3.8. La Etapa 3 aún no está redactada.
 | SSIS | **No disponible** |
 | Power BI Desktop | Instalado |
 
-Bases al inicio de la Fase 3: `Northwind` restaurada desde el backup (SQL
-Server 2019, actualizada a compatibilidad 170) y `Northwind_Staging` recreada y
-poblada durante las pruebas de idempotencia. `Northwind_DW` se creó y se
-eliminó tras validar el DDL: la reconstrucción completa queda para la Fase 4.
+Bases tras la Fase 4: `Northwind` y `Northwind_Staging` cargadas y
+`Northwind_DW` reconstruido y verificado. La reconstrucción se ejecutó dos
+veces con resultado idéntico y se generó un backup validado en
+`08_Backups/Northwind_DW.bak` (fuera de Git).
 
 ---
 
@@ -59,8 +59,9 @@ eliminó tras validar el DDL: la reconstrucción completa queda para la Fase 4.
 03_Transformacion/  Limpieza, unión y cálculo de TotalVenta
 04_DataWarehouse/   DDL del esquema estrella
 05_SSIS/            Proyectos SSIS originales (evidencia de la Etapa 2)
-06_Validacion/      Controles de integridad y reconciliación
+06_Validacion/      Controles de integridad, reconciliación y evidencias
 07_Etapa3_RFM/      Cálculo RFM, DAX, Power BI y evidencias
+08_Backups/         Backup de Northwind_DW (no versionado)
 99_Archivo/         Artefactos de compilación e IDE (no versionados)
 ```
 
@@ -101,15 +102,38 @@ Esquema estrella con grano por línea de pedido `(OrderID, ProductID)`.
 
 ---
 
-## Procedimiento de reconstrucción (Fase 4)
+## Resultado de la reconstrucción (Fase 4)
+
+Ejecutada dos veces el 2026-11-26 sobre `STG_PERU`, sin errores y con resultado
+idéntico entre ambas corridas:
+
+| Tabla | Filas | Clave mín.–máx. | Checksum |
+|---|---:|---|---:|
+| `Dim_Cliente` | 91 | 1 – 91 | `-1744422070` |
+| `Dim_Producto` | 77 | 1 – 77 | `-1572385952` |
+| `Dim_Tiempo` | 672 | 19960704 – 19980506 | `-1315692542` |
+| `Hechos_Ventas` | 2155 | 1 – 2155 | `303468615` |
+
+- `830` pedidos distintos, `51 317` unidades, monto **`1 265 793,0395`** (USD).
+- Reconciliación contra `Northwind`: 89 clientes con ventas, 77 productos,
+  2155 líneas y el mismo monto.
+- Controles en cero: huérfanos, duplicados `(OrderID, ProductID)`, nulos,
+  cantidades no positivas, precios/montos negativos, descuentos fuera de rango,
+  claves de tiempo inválidas y huecos de calendario.
+
+Evidencias en `06_Validacion/evidencias/`.
+
+---
+
+## Procedimiento de reconstrucción
 
 SSIS no está disponible, por lo que la extracción y la carga se hacen con
 scripts T-SQL. El script maestro `00_Ejecutar_Reconstruccion.sql` ejecuta el
-orden completo:
+orden completo (desde la raíz del repositorio, porque usa rutas `:r` relativas):
 
 1. Restaurar `01_Fuente/northwind2024.bak` como base `Northwind`
    (`RESTORE ... WITH MOVE`; la copia debe ser legible por la cuenta del
-   servicio `NT Service\MSSQLSERVER`).
+   servicio `NT Service\MSSQLSERVER`). Solo si la base no existe.
 2. Crear/recrear el staging con `02_Staging/creacion_BD_Northwind_Staging.sql`.
 3. Extraer con `02_Staging/Extraccion_2_2_2_T-SQL.sql`.
 4. Transformar con `03_Transformacion/ETL_2_2_4_Transformacion.sql`.
@@ -117,11 +141,9 @@ orden completo:
 6. Cargar dimensiones y calendario con `04_DataWarehouse/02_Carga_Dimensiones.sql`.
 7. Cargar hechos con `04_DataWarehouse/03_Carga_Hechos.sql`.
 8. Validar con los scripts de `06_Validacion`.
-9. Generar un backup de `Northwind_DW`.
+9. Generar un backup de `Northwind_DW` (ver `08_Backups/`).
 
-La reconstrucción completa **no se ha ejecutado** en esta fase: los scripts se
-validaron por compilación (`SET NOEXEC ON`) y con pruebas de idempotencia del
-staging y la transformación. Requiere autorización expresa para la Fase 4.
+La reconstrucción ya se ejecutó y validó. Puede repetirse sin duplicar datos.
 
 ---
 
@@ -139,6 +161,7 @@ Por tamaño o por ser artefactos generados:
 
 - `01_Fuente/northwind2024.bak` (7,1 MB)
 - `02_Staging/Northwind_Staging.bak` (5,2 MB)
+- `08_Backups/Northwind_DW.bak` (0,72 MB, verificado)
 - `99_Archivo/artefactos/**` (`.vs`, `bin`, `obj`, `.ispac`, `*.user`)
 
 Se conservan en el equipo local y deben respaldarse por separado. Ver

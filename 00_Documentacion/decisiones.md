@@ -17,7 +17,7 @@ reconstrucción.
 | I3 | Los flujos de carga SSIS no hacen `TRUNCATE` ni validan duplicados; las extracciones no tienen precedencia respecto de las cargas. | Alto: una segunda ejecución duplica el staging o falla por PK/UQ. | Reemplazado por cargas reproducibles (D4). |
 | I4 | Nombres de servidor fijos y mezclados: `DESKTOP-V3OMCK2`, `localhost`, y backups originados en `DESKTOP-VJL19IG` y `DESKTOP-KRD86TL`. | Alto: los paquetes no son portables. | La reconstrucción usa la instancia local `STG_PERU` (D3). |
 | I5 | `TRF_Tiempo` no lo usa el paquete SSIS: `Dim_Tiempo` se puebla desde `STG_Orders` y con `DATENAME` (depende del idioma del servidor). | Medio: meses en inglés si el servidor no está en español; el informe afirma lo contrario. | Se usará `TRF_Tiempo` y un calendario continuo (D2, D5). |
-| I6 | No existe respaldo de `Northwind_DW`. El backup de staging contiene solo las tablas `STG_*`, no las `TRF_*`. | Alto: el DW debe reconstruirse por completo. | Scripts listos en Fase 3; reconstrucción en Fase 4. |
+| I6 | No existe respaldo de `Northwind_DW`. El backup de staging contiene solo las tablas `STG_*`, no las `TRF_*`. | Alto: el DW debe reconstruirse por completo. | **Resuelto en Fase 4**: DW reconstruido y respaldado. |
 | I7 | `northwind2024.bak` proviene de SQL Server 2019 y `Northwind_Staging.bak` de SQL Server 2025. | Medio: el backup de staging no se puede restaurar en versiones anteriores a 2025. | La instancia local es 2025; sin bloqueo. |
 | I8 | Diferencias entre el informe y los scripts: `ID_Hecho_Venta` INT vs BIGINT; `ID_Cliente_Northwind` VARCHAR(5) vs NCHAR(10); `Descuento` DECIMAL(5,2) vs DECIMAL(9,6); `Año` vs `Anio`. | Medio: inconsistencia documental. | Se corrige el informe en Fase 4. |
 | I9 | El informe fija metas en soles (S/ 500) y Northwind almacena USD. | Bajo/medio: interpretación de KPIs. | Se conserva la moneda original (D7) y se corrige el texto. |
@@ -114,8 +114,8 @@ es una dimensión de fechas, no un dato de venta.
 |---|---|---|
 | Corregir `ID_Tiempo` (sin `IDENTITY`) y añadir calendario continuo en el DDL. | Hecho | 3 |
 | Crear extracción y carga T-SQL reproducibles. | Hecho | 3 |
-| Restaurar `Northwind` y reconstruir el DW. | `Northwind` restaurada; DW pendiente | 4 |
+| Restaurar `Northwind` y reconstruir el DW. | Hecho | 4 |
 | Corregir tipos y moneda en el informe Word. | Pendiente | 4 |
 | Configurar `origin` del repositorio. | Hecho | 3 |
 | Definir si los `.bak` se comparten por Git LFS o almacenamiento externo. | Pendiente | 2 |
-| Calcular RFM, segmentar y construir el dashboard. | Pendiente | Etapa 3 |
+| Generar y verificar el backup del DW. | Hecho (`08_Backups`) | 4 |\n| Calcular RFM, segmentar y construir el dashboard. | Pendiente | Etapa 3 |
