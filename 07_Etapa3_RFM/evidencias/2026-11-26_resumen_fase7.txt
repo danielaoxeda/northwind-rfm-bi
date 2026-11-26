@@ -1,0 +1,41 @@
+FASE 7 - REFERENCIAS SQL REALES
+Instancia: STG_PERU
+Base: Northwind_DW
+Fecha de ejecucion: 2026-11-26
+Los resultados proceden de las salidas completas de los scripts SQL enlazados
+en el README de evidencias. DAX NO se ejecuto en Power BI Desktop.
+
+RFM / SEGMENTOS al corte 1998-05-07
+Clientes con compras: 89
+Clientes sin compras: 2 (FISSA ID 22, PARIS ID 57)
+Activos R <= 60: 67
+VIP: 17 (19.1011% de 89 compradores)
+Activo: 28
+Ocasional: 22
+En riesgo: 5
+Frecuente: 2
+Inactivo: 15
+Scores R por nivel 1..5: 18, 17, 17, 17, 20
+Scores F por nivel 1..5: 26, 15, 20, 10, 18
+Scores M por nivel 1..5: 18, 18, 18, 17, 18
+
+KPI SQL
+1. Clientes activos: 67; recencia promedio activa: 19.64 dias.
+2. Clientes con >=3 pedidos: Q1-1997=8; Q1-1998=30.
+   Variacion calculada = (30-8)/8 = +275%.
+3. Cohorte actualmente Frecuente; ventanas iguales de 300 dias:
+   1996-07-11..1997-05-06 = USD 51,380.0200 (30 pedidos).
+   1997-07-11..1998-05-06 = USD 38,656.6275 (31 pedidos).
+   Variacion calculada = -24.76%.
+4. Monto USD 1,265,793.0395 / 830 pedidos = USD 1,525.051854.
+   Meta reformulada USD 500; cumple.
+5. VIP 17 / 89 compradores = 19.1011%.
+6. Clientes en riesgo en ventanas iguales de 180 dias:
+   1996-07-05..1996-12-31 = 7; 1997-07-05..1997-12-31 = 6.
+   Variacion calculada = -14.29%.
+7. Reactivacion proxy: 69 clientes / 89 elegibles = 77.53%.
+   Es historica y no mide exposicion ni efecto de campaña.
+
+VENTANAS
+Las dos ventanas KPI 3 tienen 300 dias cada una; las dos ventanas KPI 6 tienen
+180 dias cada una. No se compara el periodo 1998 parcial con un año completo.

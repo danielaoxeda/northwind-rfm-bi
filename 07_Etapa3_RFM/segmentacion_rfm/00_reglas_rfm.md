@@ -1,137 +1,78 @@
-# Reglas RFM propuestas (pendientes de aprobación)
+# Reglas RFM consolidadas — aprobadas para implementar
 
-Documento de trabajo para la Etapa 3. Define puntajes 1–5 y segmentos
-excluyentes a partir de la distribución real. **No implementar en Power BI
-hasta recibir aprobación.**
+Fecha de evaluación inicial: **1998-05-07**. Fecha de evaluación dinámica en
+Power BI: la fecha seleccionada por el usuario, limitada al máximo de fechas
+disponibles en el DW.
 
-Fecha de corte: **1998-05-07**. Universo puntuado: **89 clientes con compras**.
-Los **2 sin compras** (FISSA 22 y PARIS 57) se clasifican aparte y no reciben
-puntaje.
+## 1. Puntajes exactos (solo clientes con compras hasta la evaluación)
 
----
+Los cortes son enteros para R/F y decimales exactos para M. No hay huecos ni
+solapamientos; los empates reciben el mismo puntaje.
 
-## 1. Base estadística
+| Puntaje | R, días (menor mejor) | F, pedidos (mayor mejor) | M, USD (mayor mejor) |
+|---:|---|---|---|
+| 5 | R ≤ 8 | F ≥ 14 | M ≥ 20 000 |
+| 4 | 9 ≤ R ≤ 16 | 11 ≤ F ≤ 13 | 11 500 ≤ M < 20 000 |
+| 3 | 17 ≤ R ≤ 31 | 8 ≤ F ≤ 10 | 5 200 ≤ M < 11 500 |
+| 2 | 32 ≤ R ≤ 70 | 6 ≤ F ≤ 7 | 3 000 ≤ M < 5 200 |
+| 1 | R ≥ 71 | 1 ≤ F ≤ 5 | 0 < M < 3 000 |
 
-| Métrica | Mín | Máx | Promedio | p20 | p40 | p60 | p80 |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| R (días) | 1 | 658 | 52,56 | 8 | 16 | 30,8 | 70,4 |
-| F (pedidos) | 1 | 31 | 9,326 | 5 | 7 | 10 | 13,4 |
-| M (USD) | 100,80 | 110 277,31 | 14 222,39 | 2 975,56 | 5 182,98 | 11 445,41 | 19 926,91 |
+F=0 o M=0 no se puntúa: corresponde a **Sin compras**. R no es NULL para un
+cliente con compras. La puntuación R2 acaba en 70 y R1 comienza en 71; la
+actividad (60 días) es una regla aparte y no altera el umbral R aprobado.
 
-Los percentiles se calcularon con `PERCENTILE_CONT`. Los cortes operativos se
-redondearon para que sean legibles y reproducibles.
+## 2. Estado de actividad y clasificación excluyente
 
----
+**Activo** significa una compra en los últimos 60 días inclusive:
+`Recencia_Dias <= 60`. Un cliente activo nunca se llama Inactivo, En riesgo ni
+Frecuente solo por su puntuación. Los activos no-VIP se dividen en `Ocasional`
+(baja F y M) y `Activo` (resto).
 
-## 2. Puntajes 1–5
+Prioridad de asignación:
 
-### Recencia (menor es mejor)
+1. **Sin compras**: no existe venta hasta la fecha de evaluación. No recibe
+   puntajes.
+2. **VIP**: tiene compras y `SR >= 4 AND SF >= 4 AND SM >= 4`.
+3. **Ocasional**: activo no-VIP y `SF <= 2 AND SM <= 2`.
+4. **Activo**: activo no-VIP que no cumple la regla Ocasional.
+5. **En riesgo**: no activo y `(SF >= 4 OR SM >= 4)`. Cliente valioso en el
+   pasado, con recencia de 61 días o más.
+6. **Frecuente**: no activo, no En riesgo, `SF >= 3`.
+7. **Inactivo**: no activo, no En riesgo, `SF < 3`.
 
-| Puntaje | Regla | Clientes |
-|---:|---|---:|
-| 5 | R ≤ 8 | 20 |
-| 4 | 9 ≤ R ≤ 16 | 17 |
-| 3 | 17 ≤ R ≤ 31 | 17 |
-| 2 | 32 ≤ R ≤ 70 | 17 |
-| 1 | R > 70 | 18 |
+Las condiciones de los pasos son excluyentes por orden y el último caso es el
+fallback. `En riesgo` va antes de `Frecuente` para identificar clientes que
+fueron valiosos pero llevan más de 60 días sin comprar. Activo/Ocasional
+distingue actividad reciente alta o moderada de actividad reciente baja, sin
+confundir ninguna con inactividad.
 
-### Frecuencia (mayor es mejor)
+### Convención para KPI
 
-| Puntaje | Regla | Clientes |
-|---:|---|---:|
-| 5 | F ≥ 14 | 18 |
-| 4 | 11 ≤ F ≤ 13 | 10 |
-| 3 | 8 ≤ F ≤ 10 | 20 |
-| 2 | 6 ≤ F ≤ 7 | 15 |
-| 1 | F ≤ 5 | 26 |
+- **Activo** (KPI 1): R ≤ 60 días al corte/evaluación.
+- **% VIP**: VIP / clientes con compras al corte, no sobre los 91 clientes.
+- **Sin compras**: se reporta aparte y no entra al denominador de puntajes.
 
-### Monto (mayor es mejor)
+## 3. Distribución histórica al 1998-05-07
 
-| Puntaje | Regla | Clientes |
-|---:|---|---:|
-| 5 | M ≥ 20 000 | 18 |
-| 4 | 11 500 ≤ M < 20 000 | 17 |
-| 3 | 5 200 ≤ M < 11 500 | 18 |
-| 2 | 3 000 ≤ M < 5 200 | 18 |
-| 1 | M < 3 000 | 18 |
+R/F/M se calculan con pedidos hasta el corte. Los resultados SQL verificables
+se registran en `evidencias/2026-11-26_segmentos_consolidados.txt`.
+Distribución de estados: 89 clientes con compras, 2 sin compras. Los conteos
+por segmento se toman de la evidencia SQL. Actividad 60d: 67 clientes.
+Evidencia SQL:
+`evidencias/2026-11-26_segmentos_consolidados.txt`.
 
-### Empates
+### Conteos finales por puntaje (89 compradores)
 
-Los umbrales usan `≤` o `<` de forma consistente, de modo que **todos los
-clientes con el mismo valor reciben el mismo puntaje**. No se usa `NTILE`, que
-reparte empates de forma arbitraria.
+| Score | R | F | M |
+|---:|---:|---:|---:|
+| 1 | 18 | 26 | 18 |
+| 2 | 17 | 15 | 18 |
+| 3 | 17 | 20 | 18 |
+| 4 | 17 | 10 | 17 |
+| 5 | 20 | 18 | 18 |
 
-Clientes exactamente en cada límite:
+## 4. No confundir puntajes con decisiones de negocio
 
-| Límite | R | F | M |
-|---|---:|---:|---:|
-| p20 | 3 en R=8 | 10 en F=5 | 0 |
-| p40 | 3 en R=16 | 7 en F=7 | 0 |
-| p60 | 1 en R=31 | 11 en F=10 | 0 |
-| p80 | 0 en R=70 | 3 en F=13 | 0 |
-
-Consecuencia: los grupos no son exactamente 20 % cada uno. En frecuencia, el
-puntaje 1 concentra 26 clientes (29 %) porque hay muchos clientes con 1–5
-pedidos. Es el comportamiento correcto al respetar empates.
-
-### Puntaje combinado
-
-`RFM = R + F + M`, entre 3 y 15. Distribución real:
-
-| RFM | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| Clientes | 8 | 5 | 9 | 6 | 6 | 12 | 5 | 7 | 5 | 7 | 6 | 7 | 6 |
-
----
-
-## 3. Segmentos propuestos
-
-Se evalúan **en este orden**; el primer `CASE` que cumple asigna el segmento.
-Así se garantiza exclusividad y cobertura total.
-
-| Orden | Segmento | Regla | Clientes | % de 89 |
-|---:|---|---|---:|---:|
-| 1 | **VIP** | R ≥ 4 y F ≥ 4 y M ≥ 4 | 17 | 19,1 % |
-| 2 | **En riesgo** | no VIP, R ≤ 2 y (F ≥ 3 o M ≥ 3) | 15 | 16,9 % |
-| 3 | **Frecuentes** | no VIP, R ≥ 3 y F ≥ 3 | 19 | 21,3 % |
-| 4 | **Inactivos** | el resto | 38 | 42,7 % |
-| — | **Sin compras** | no tiene filas en `Hechos_Ventas` | 2 | — |
-
-### Perfil promedio por segmento
-
-| Segmento | R promedio | F promedio | M promedio |
-|---|---:|---:|---:|
-| VIP | 7,0 | 16,6 | 35 188 |
-| Frecuentes | 16,1 | 11,8 | 19 007 |
-| En riesgo | 82,9 | 9,7 | 12 203 |
-| Inactivos | 79,2 | 4,7 | 3 248 |
-
-### Por qué estas reglas
-
-- **VIP** exige buen desempeño en las tres dimensiones, no solo gasto alto.
-- **En riesgo** captura clientes que fueron valiosos (frecuencia o monto altos)
-  pero llevan más de ~30 días sin comprar (R ≤ 2). Se evalúa antes que
-  "Frecuentes" para no ocultar la fuga.
-- **Frecuentes** son clientes con actividad razonable y no recientes de riesgo.
-- **Inactivos** agrupa a quienes nunca fueron intensivos y además están fríos.
-- **Sin compras** queda fuera: no tiene sentido asignarle R, F o M.
-
-### Verificación de exclusividad
-
-- `Clasificados = 89`, `Sin_Clasificar = 0`.
-- Ningún cliente puede cumplir dos reglas por el orden del `CASE`.
-- Cambiar cualquier umbral exige recalcular y volver a ejecutar
-  `02_propuesta_umbrales.sql`.
-
----
-
-## 4. Puntos a aprobar
-
-1. Umbrales de R, F y M de la sección 2.
-2. Reglas y nombres de los segmentos de la sección 3.
-3. Definición de "cliente activo" para el KPI 1 (se propone R ≤ 90).
-4. Si el denominador de `% VIP` es 91 (todos) o 89 (con compras).
-5. Si "En riesgo" debe exigir además M ≥ cierto valor.
-
-Hasta la aprobación, estas reglas son solo un análisis y no se implementan como
-medidas ni columnas del modelo.
+Las bandas aprobadas producen cinco puntajes, pero el mapeo a los segmentos
+anteriores es una regla adicional de negocio. No usar `NTILE`: dividiría
+empates arbitrariamente y variaría los límites con cada actualización.

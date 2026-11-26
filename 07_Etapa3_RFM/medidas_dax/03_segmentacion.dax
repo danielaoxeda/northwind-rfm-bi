@@ -1,0 +1,30 @@
+Segmento =
+VAR TieneCompras = Cliente_RFM[Frecuencia_Pedidos] > 0
+VAR R = Cliente_RFM[Recencia_Dias]
+VAR SR = Cliente_RFM[Score_R]
+VAR SF = Cliente_RFM[Score_F]
+VAR SM = Cliente_RFM[Score_M]
+VAR EsVIP = SR >= 4 && SF >= 4 && SM >= 4
+RETURN
+    SWITCH (
+        TRUE (),
+        NOT TieneCompras, "Sin compras",
+        EsVIP, "VIP",
+        R <= 60 && SF <= 2 && SM <= 2, "Ocasional",
+        R <= 60, "Activo",
+        SF >= 4 || SM >= 4, "En riesgo",
+        SF >= 3, "Frecuente",
+        "Inactivo"
+    )
+
+Estado_Actividad =
+IF (
+    Cliente_RFM[Frecuencia_Pedidos] = 0,
+    "Sin compras",
+    IF ( Cliente_RFM[Recencia_Dias] <= 60, "Activo", "No activo" )
+)
+
+// Exclusividad por orden: Sin compras > VIP > Ocasional (R<=60,Fscore<=2,
+// Mscore<=2) > Activo (resto R<=60) > En riesgo (R>60,Fscore>=4 o
+// Mscore>=4) > Frecuente (R>60 y Fscore>=3) > Inactivo.
+// Ningun cliente reciente queda clasificado como Inactivo/En riesgo/Frecuente.

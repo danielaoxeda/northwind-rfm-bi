@@ -1,0 +1,57 @@
+// Agregar estas columnas calculadas en la tabla calculada Cliente_RFM.
+// Evaluacion: 1998-05-07 por defecto; reemplazar por parametro/selector
+// solo cuando se implemente el modelo dinamico aprobado.
+
+Score_R =
+VAR R = Cliente_RFM[Recencia_Dias]
+RETURN
+    SWITCH (
+        TRUE (),
+        ISBLANK ( R ), BLANK (),
+        R <= 8, 5,
+        R <= 16, 4,
+        R <= 31, 3,
+        R <= 70, 2,
+        1
+    )
+
+Score_F =
+VAR F = Cliente_RFM[Frecuencia_Pedidos]
+RETURN
+    SWITCH (
+        TRUE (),
+        F <= 0, BLANK (),
+        F <= 5, 1,
+        F <= 7, 2,
+        F <= 10, 3,
+        F <= 13, 4,
+        5
+    )
+
+Score_M =
+VAR M = Cliente_RFM[Monto_Total]
+RETURN
+    SWITCH (
+        TRUE (),
+        M <= 0, BLANK (),
+        M < 3000, 1,
+        M < 5200, 2,
+        M < 11500, 3,
+        M < 20000, 4,
+        5
+    )
+
+Score_RFM =
+IF (
+    ISBLANK ( Cliente_RFM[Score_R] )
+        || ISBLANK ( Cliente_RFM[Score_F] )
+        || ISBLANK ( Cliente_RFM[Score_M] ),
+    BLANK (),
+    Cliente_RFM[Score_R] + Cliente_RFM[Score_F] + Cliente_RFM[Score_M]
+)
+
+// Limites sin espacios:
+// R: 1-8 / 9-16 / 17-31 / 32-70 / 71+
+// F: 1-5 / 6-7 / 8-10 / 11-13 / 14+
+// M: (0,3000) / [3000,5200) / [5200,11500) /
+//    [11500,20000) / [20000,+inf)

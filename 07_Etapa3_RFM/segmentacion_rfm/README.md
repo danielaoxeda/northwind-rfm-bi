@@ -1,35 +1,28 @@
-# Segmentación RFM
+# Lógica RFM consolidada
 
-Propuesta de puntajes 1–5 y segmentos excluyentes. **No aprobada todavía.**
+Umbrales aprobados, límites exactos, exclusividad y distribución: ver
+`00_reglas_rfm.md`.
 
-| Archivo | Contenido |
+| Archivo | Función |
 |---|---|
-| `01_contraste_dax_sql.sql` | Traduce las medidas DAX a SQL y las compara con la referencia |
-| `02_propuesta_umbrales.sql` | Distribución real, percentiles, empates, puntajes y segmentos |
-| `00_reglas_rfm.md` | Reglas propuestas y análisis de empates |
+| `00_reglas_rfm.md` | Reglas aprobadas, scores, segmentos y excepciones |
+| `01_contraste_dax_sql.sql` | Contraste de métricas R/F/M base |
+| `02_propuesta_umbrales.sql` | SQL de solo lectura con distribución actual de segmentos |
 
-## Distribución real (89 clientes con compras)
+## Resultados al corte 1998-05-07
 
-| Métrica | Mín | Máx | Promedio | p20 | p40 | p60 | p80 |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| Recencia (días) | 1 | 658 | 52,56 | 8 | 16 | 30,8 | 70,4 |
-| Frecuencia (pedidos) | 1 | 31 | 9,326 | 5 | 7 | 10 | 13,4 |
-| Monto (USD) | 100,80 | 110 277,31 | 14 222,39 | 2 975,56 | 5 182,98 | 11 445,41 | 19 926,91 |
+- 89 clientes con compras; 2 sin compras (FISSA 22, PARIS 57).
+- 67 activos (R≤60); 22 no activos.
+- Segmentos: 17 VIP (19,1 %), 28 Activos (31,5 %), 22 Ocasionales (24,7 %),
+  5 En riesgo (5,6 %), 2 Frecuentes (2,2 %), 15 Inactivos (16,9 %).
+- VIP: 17/89 = 19,10 % de clientes con compras.
 
-## Propuesta de segmentos (excluyentes por orden)
+`Activo` incluye compradores recientes no VIP de intensidad media/alta;
+`Ocasional` identifica compradores recientes de baja F y M. Ningún cliente
+con compra en los últimos 60 días aparece como Inactivo, En riesgo o Frecuente.
 
-| Segmento | Regla | Clientes | % de 89 |
-|---|---|---:|---:|
-| VIP | R ≥ 4, F ≥ 4, M ≥ 4 | 17 | 19,1 % |
-| En riesgo | no VIP, R ≤ 2 y (F ≥ 3 o M ≥ 3) | 15 | 16,9 % |
-| Frecuentes | no VIP, R ≥ 3 y F ≥ 3 | 19 | 21,3 % |
-| Inactivos | resto | 38 | 42,7 % |
-| Sin compras | sin filas en hechos | 2 | — |
+## Estado DAX
 
-`Clasificados = 89` y `Sin_Clasificar = 0`: las reglas son mutuamente
-excluyentes y cubren a todos los clientes con compras.
-
-Evidencia: `07_Etapa3_RFM/evidencias/2026-11-26_distribucion_rfm.txt`.
-
-Pendiente: aprobación de umbrales, puntajes y nombres de segmento antes de
-implementarlos en Power BI.
+Las expresiones se encuentran en `../medidas_dax/02_puntuacion_rfm.dax` y
+`03_segmentacion.dax`. Se han contrastado las reglas equivalentes en SQL; la
+ejecución real de DAX requiere validación manual en Power BI Desktop.

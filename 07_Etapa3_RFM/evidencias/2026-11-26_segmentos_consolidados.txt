@@ -1,0 +1,41 @@
+﻿Changed database context to 'Northwind_DW'.
+Segmento|Clientes|Pct_Con_Compras|R_Promedio|F_Promedio|M_Promedio
+--------|--------|---------------|----------|----------|----------
+Activo|28|31.5|22.8|10.7|15966
+En riesgo|5|5.6|119.2|11.2|20043
+Frecuente|2|2.2|83.0|10.0|7664
+Inactivo|15|16.9|173.3|4.1|2348
+Ocasional|22|24.7|25.4|5.0|3173
+VIP|17|19.1|7.0|16.6|35188
+
+(6 rows affected)
+Dim|Puntaje|Clientes
+---|-------|--------
+F|1|26
+F|2|15
+F|3|20
+F|4|10
+F|5|18
+M|1|18
+M|2|18
+M|3|18
+M|4|17
+M|5|18
+R|1|18
+R|2|17
+R|3|17
+R|4|17
+R|5|20
+
+(15 rows affected)
+Clientes_Con_Compras|Activos_60d|No_Activos
+--------------------|-----------|----------
+89|67|22
+
+(1 rows affected)
+ID_Cliente|Codigo|Nombre_Empresa|Pais|Segmento
+----------|------|--------------|----|--------
+22|FISSA|FISSA Fabrica Inter. Salchichas S.A.|Spain|Sin compras
+57|PARIS|Paris spécialités|France|Sin compras
+
+(2 rows affected)
