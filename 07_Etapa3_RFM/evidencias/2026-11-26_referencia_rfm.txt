@@ -1,0 +1,200 @@
+﻿Changed database context to 'Northwind_DW'.
+ID_Cliente|ID_Cliente_Northwind|Nombre_Empresa|Pais|Ultima_Compra|Recencia_Dias|Frecuencia_Pedidos|Monto_Total
+----------|--------------------|--------------|----|-------------|-------------|------------------|-----------
+65|RATTC     |Rattlesnake Canyon Grocery|USA|1998-05-06|1|18|51097.8005
+9|BONAP     |Bon app'|France|1998-05-06|1|17|21963.2525
+68|RICSU     |Richter Supermarkt|Switzerland|1998-05-06|1|10|19343.7790
+73|SIMOB     |Simons bistro|Denmark|1998-05-06|1|7|16817.0975
+20|ERNSH     |Ernst Handel|Austria|1998-05-05|2|30|104874.9785
+44|LEHMS     |Lehmanns Marktstand|Germany|1998-05-05|2|15|19261.4100
+46|LILAS     |LILA-Supermercado|Venezuela|1998-05-05|2|14|16076.6000
+58|PERIC     |Pericles Comidas clásicas|Mexico|1998-05-05|2|6|4242.2000
+62|QUEEN     |Queen Cozinha|Brazil|1998-05-04|3|13|25717.4975
+80|TORTU     |Tortuga Restaurante|Mexico|1998-05-04|3|10|10812.1500
+17|DRACD     |Drachenblut Delikatessen|Germany|1998-05-04|3|6|3763.2100
+71|SAVEA     |Save-a-lot Markets|USA|1998-05-01|6|31|104361.9500
+89|WHITC     |White Clover Markets|USA|1998-05-01|6|14|27363.6050
+37|HUNGO     |Hungry Owl All-Night Grocers|Ireland|1998-04-30|7|19|49979.9050
+66|REGGC     |Reggiani Caseifici|Italy|1998-04-30|7|12|7048.2400
+32|GREAL     |Great Lakes Food Market|USA|1998-04-30|7|11|18507.4500
+27|FRANS     |Franchi S.p.A.|Italy|1998-04-30|7|6|1545.7000
+67|RICAR     |Ricardo Adocicados|Brazil|1998-04-29|8|11|12450.8000
+6|BLAUS     |Blauer See Delikatessen|Germany|1998-04-29|8|7|3239.8000
+53|NORTS     |North/South|UK|1998-04-29|8|3|649.0000
+35|HILAA     |HILARION-Abastos|Venezuela|1998-04-28|9|18|22768.7640
+19|EASTC     |Eastern Connection|UK|1998-04-28|9|8|14761.0350
+12|CACTU     |Cactus Comidas para llevar|Argentina|1998-04-28|9|6|1814.8000
+24|FOLKO     |Folk och fä HB|Sweden|1998-04-27|10|19|29567.5625
+34|HANAR     |Hanari Carnes|Brazil|1998-04-27|10|14|32841.3700
+41|LAMAI     |La maison d'Asie|France|1998-04-27|10|14|9328.2000
+59|PICCO     |Piccolo und mehr|Austria|1998-04-27|10|10|23128.8600
+10|BOTTM     |Bottom-Dollar Markets|Canada|1998-04-24|13|14|20801.6000
+31|GOURL     |Gourmet Lanchonetes|Brazil|1998-04-24|13|9|8414.1350
+86|WANDK     |Die Wandernde Kuh|Germany|1998-04-23|14|10|9588.4250
+91|WOLZA     |Wolski  Zajazd|Poland|1998-04-23|14|7|3531.9500
+14|CHOPS     |Chop-suey Chinese|Switzerland|1998-04-22|15|8|12348.8800
+15|COMMI     |Comércio Mineiro|Brazil|1998-04-22|15|5|3810.7500
+74|SPECD     |Spécialités du monde|France|1998-04-22|15|4|2423.3500
+76|SUPRD     |Suprêmes délices|Belgium|1998-04-21|16|12|24088.7800
+47|LINOD     |LINO-Delicateses|Venezuela|1998-04-21|16|12|16476.5650
+30|GODOS     |Godos Cocina Típica|Spain|1998-04-21|16|10|11446.3600
+55|OLDWO     |Old World Delicatessen|USA|1998-04-20|17|10|15177.4625
+39|KOENE     |Königlich Essen|Germany|1998-04-16|21|14|30908.3840
+87|WARTH     |Wartian Herkku|Finland|1998-04-15|22|15|15648.7025
+63|QUICK     |QUICK-Stop|Germany|1998-04-14|23|28|110277.3050
+56|OTTIK     |Ottilies Käseladen|Germany|1998-04-14|23|10|12496.2000
+11|BSBEV     |B's Beverages|UK|1998-04-14|23|10|6089.9000
+48|LONEP     |Lonesome Pine Restaurant|USA|1998-04-13|24|8|4258.6000
+64|RANCH     |Rancho grande|Argentina|1998-04-13|24|5|2844.1000
+4|AROUT     |Around the Horn|UK|1998-04-10|27|13|13390.6500
+70|SANTG     |Santé Gourmet|Norway|1998-04-10|27|6|5735.1500
+25|FRANK     |Frankenversand|Germany|1998-04-09|28|15|26656.5595
+1|ALFKI     |Alfreds Futterkiste|Germany|1998-04-09|28|6|4273.0000
+69|ROMEY     |Romero y tomillo|Spain|1998-04-09|28|5|1467.2900
+60|PRINI     |Princesa Isabel Vinhos|Portugal|1998-04-08|29|5|5044.9400
+50|MAISD     |Maison Dewey|Belgium|1998-04-07|30|7|9736.0750
+90|WILMK     |Wilman Kala|Finland|1998-04-07|30|7|3161.3500
+78|THECR     |The Cracker Box|USA|1998-04-06|31|3|1947.2400
+83|VAFFE     |Vaffeljernet|Denmark|1998-04-02|35|11|15843.9250
+77|THEBI     |The Big Cheese|USA|1998-04-01|36|4|3361.0000
+61|QUEDE     |Que Delícia|Brazil|1998-03-31|37|9|6664.8100
+54|OCEAN     |Océano Atlántico Ltda.|Argentina|1998-03-30|38|5|3460.2000
+75|SPLIR     |Split Rail Beer & Ale|USA|1998-03-25|43|9|11441.6300
+40|LACOR     |La corne d'abondance|France|1998-03-24|44|4|1992.0500
+8|BOLID     |Bólido Comidas preparadas|Spain|1998-03-24|44|3|4232.8500
+26|FRANR     |France restauration|France|1998-03-24|44|3|3172.1600
+79|TOMSP     |Toms Spezialitäten|Germany|1998-03-23|45|6|4778.1400
+28|FURIB     |Furia Bacalhau e Frutos do Mar|Portugal|1998-03-19|49|8|6427.4225
+49|MAGAA     |Magazzini Alimentari Riuniti|Italy|1998-03-16|52|10|7176.2150
+52|MORGK     |Morgenstern Gesundkost|Germany|1998-03-12|56|5|5042.2000
+88|WELLI     |Wellington Importadora|Brazil|1998-03-09|59|9|6068.2000
+38|ISLAT     |Island Trading|UK|1998-03-06|62|10|6146.3000
+29|GALED     |Galería del gastrónomo|Spain|1998-03-05|63|5|836.7000
+5|BERGS     |Berglunds snabbköp|Sweden|1998-03-04|64|18|24927.5775
+2|ANATR     |Ana Trujillo Emparedados y helados|Mexico|1998-03-04|64|4|1402.9500
+18|DUMON     |Du monde entier|France|1998-02-16|80|4|1615.9000
+45|LETSS     |Let's Stop N Shop|USA|1998-02-12|84|4|3076.4725
+72|SEVES     |Seven Seas Imports|UK|1998-02-04|92|9|16215.3250
+3|ANTON     |Antonio Moreno Taquería|Mexico|1998-01-28|99|7|7023.9775
+84|VICTE     |Victuailles en stock|France|1998-01-23|104|10|9182.4300
+16|CONSH     |Consolidated Holdings|UK|1998-01-23|104|3|1719.1000
+81|TRADH     |Tradição Hipermercados|Brazil|1998-01-19|108|6|6850.6640
+7|BLONP     |Blondesddsl père et fils|France|1998-01-12|115|11|18534.0800
+82|TRAIH     |Trail's Head Gourmet Provisioners|USA|1998-01-08|119|3|1571.2000
+42|LAUGB     |Laughing Bacchus Wine Cellars|Canada|1998-01-01|126|3|522.5000
+23|FOLIG     |Folies gourmandes|France|1997-12-22|136|5|11666.9000
+33|GROSR     |GROSELLA-Restaurante|Venezuela|1997-12-18|140|2|1488.7000
+85|VINET     |Vins et alcools Chevalier|France|1997-11-12|176|5|1480.0000
+21|FAMIA     |Familia Arquibaldo|Brazil|1997-10-31|188|7|4107.5500
+51|MEREP     |Mère Paillarde|Canada|1997-10-30|189|13|28872.1900
+36|HUNGC     |Hungry Coyote Import Store|USA|1997-09-08|241|5|3063.2000
+43|LAZYK     |Lazy K Kountry Store|USA|1997-05-22|350|2|357.0000
+13|CENTC     |Centro comercial Moctezuma|Mexico|1996-07-18|658|1|100.8000
+
+(89 rows affected)
+ID_Cliente|ID_Cliente_Northwind|Nombre_Empresa|Pais|Ultima_Compra|Recencia_Dias|Frecuencia_Pedidos|Monto_Total|Situacion
+----------|--------------------|--------------|----|-------------|-------------|------------------|-----------|---------
+22|FISSA     |FISSA Fabrica Inter. Salchichas S.A.|Spain|NULL|NULL|0|.0000|Sin compras
+57|PARIS     |Paris spécialités|France|NULL|NULL|0|.0000|Sin compras
+
+(2 rows affected)
+ID_Cliente|ID_Cliente_Northwind|Nombre_Empresa|Pais|Tiene_Compras|Recencia_Dias|Frecuencia_Pedidos|Monto_Total
+----------|--------------------|--------------|----|-------------|-------------|------------------|-----------
+1|ALFKI     |Alfreds Futterkiste|Germany|1|28|6|4273.0000
+2|ANATR     |Ana Trujillo Emparedados y helados|Mexico|1|64|4|1402.9500
+3|ANTON     |Antonio Moreno Taquería|Mexico|1|99|7|7023.9775
+4|AROUT     |Around the Horn|UK|1|27|13|13390.6500
+5|BERGS     |Berglunds snabbköp|Sweden|1|64|18|24927.5775
+6|BLAUS     |Blauer See Delikatessen|Germany|1|8|7|3239.8000
+7|BLONP     |Blondesddsl père et fils|France|1|115|11|18534.0800
+8|BOLID     |Bólido Comidas preparadas|Spain|1|44|3|4232.8500
+9|BONAP     |Bon app'|France|1|1|17|21963.2525
+10|BOTTM     |Bottom-Dollar Markets|Canada|1|13|14|20801.6000
+11|BSBEV     |B's Beverages|UK|1|23|10|6089.9000
+12|CACTU     |Cactus Comidas para llevar|Argentina|1|9|6|1814.8000
+13|CENTC     |Centro comercial Moctezuma|Mexico|1|658|1|100.8000
+14|CHOPS     |Chop-suey Chinese|Switzerland|1|15|8|12348.8800
+15|COMMI     |Comércio Mineiro|Brazil|1|15|5|3810.7500
+16|CONSH     |Consolidated Holdings|UK|1|104|3|1719.1000
+17|DRACD     |Drachenblut Delikatessen|Germany|1|3|6|3763.2100
+18|DUMON     |Du monde entier|France|1|80|4|1615.9000
+19|EASTC     |Eastern Connection|UK|1|9|8|14761.0350
+20|ERNSH     |Ernst Handel|Austria|1|2|30|104874.9785
+21|FAMIA     |Familia Arquibaldo|Brazil|1|188|7|4107.5500
+22|FISSA     |FISSA Fabrica Inter. Salchichas S.A.|Spain|0|NULL|0|.0000
+23|FOLIG     |Folies gourmandes|France|1|136|5|11666.9000
+24|FOLKO     |Folk och fä HB|Sweden|1|10|19|29567.5625
+25|FRANK     |Frankenversand|Germany|1|28|15|26656.5595
+26|FRANR     |France restauration|France|1|44|3|3172.1600
+27|FRANS     |Franchi S.p.A.|Italy|1|7|6|1545.7000
+28|FURIB     |Furia Bacalhau e Frutos do Mar|Portugal|1|49|8|6427.4225
+29|GALED     |Galería del gastrónomo|Spain|1|63|5|836.7000
+30|GODOS     |Godos Cocina Típica|Spain|1|16|10|11446.3600
+31|GOURL     |Gourmet Lanchonetes|Brazil|1|13|9|8414.1350
+32|GREAL     |Great Lakes Food Market|USA|1|7|11|18507.4500
+33|GROSR     |GROSELLA-Restaurante|Venezuela|1|140|2|1488.7000
+34|HANAR     |Hanari Carnes|Brazil|1|10|14|32841.3700
+35|HILAA     |HILARION-Abastos|Venezuela|1|9|18|22768.7640
+36|HUNGC     |Hungry Coyote Import Store|USA|1|241|5|3063.2000
+37|HUNGO     |Hungry Owl All-Night Grocers|Ireland|1|7|19|49979.9050
+38|ISLAT     |Island Trading|UK|1|62|10|6146.3000
+39|KOENE     |Königlich Essen|Germany|1|21|14|30908.3840
+40|LACOR     |La corne d'abondance|France|1|44|4|1992.0500
+41|LAMAI     |La maison d'Asie|France|1|10|14|9328.2000
+42|LAUGB     |Laughing Bacchus Wine Cellars|Canada|1|126|3|522.5000
+43|LAZYK     |Lazy K Kountry Store|USA|1|350|2|357.0000
+44|LEHMS     |Lehmanns Marktstand|Germany|1|2|15|19261.4100
+45|LETSS     |Let's Stop N Shop|USA|1|84|4|3076.4725
+46|LILAS     |LILA-Supermercado|Venezuela|1|2|14|16076.6000
+47|LINOD     |LINO-Delicateses|Venezuela|1|16|12|16476.5650
+48|LONEP     |Lonesome Pine Restaurant|USA|1|24|8|4258.6000
+49|MAGAA     |Magazzini Alimentari Riuniti|Italy|1|52|10|7176.2150
+50|MAISD     |Maison Dewey|Belgium|1|30|7|9736.0750
+51|MEREP     |Mère Paillarde|Canada|1|189|13|28872.1900
+52|MORGK     |Morgenstern Gesundkost|Germany|1|56|5|5042.2000
+53|NORTS     |North/South|UK|1|8|3|649.0000
+54|OCEAN     |Océano Atlántico Ltda.|Argentina|1|38|5|3460.2000
+55|OLDWO     |Old World Delicatessen|USA|1|17|10|15177.4625
+56|OTTIK     |Ottilies Käseladen|Germany|1|23|10|12496.2000
+57|PARIS     |Paris spécialités|France|0|NULL|0|.0000
+58|PERIC     |Pericles Comidas clásicas|Mexico|1|2|6|4242.2000
+59|PICCO     |Piccolo und mehr|Austria|1|10|10|23128.8600
+60|PRINI     |Princesa Isabel Vinhos|Portugal|1|29|5|5044.9400
+61|QUEDE     |Que Delícia|Brazil|1|37|9|6664.8100
+62|QUEEN     |Queen Cozinha|Brazil|1|3|13|25717.4975
+63|QUICK     |QUICK-Stop|Germany|1|23|28|110277.3050
+64|RANCH     |Rancho grande|Argentina|1|24|5|2844.1000
+65|RATTC     |Rattlesnake Canyon Grocery|USA|1|1|18|51097.8005
+66|REGGC     |Reggiani Caseifici|Italy|1|7|12|7048.2400
+67|RICAR     |Ricardo Adocicados|Brazil|1|8|11|12450.8000
+68|RICSU     |Richter Supermarkt|Switzerland|1|1|10|19343.7790
+69|ROMEY     |Romero y tomillo|Spain|1|28|5|1467.2900
+70|SANTG     |Santé Gourmet|Norway|1|27|6|5735.1500
+71|SAVEA     |Save-a-lot Markets|USA|1|6|31|104361.9500
+72|SEVES     |Seven Seas Imports|UK|1|92|9|16215.3250
+73|SIMOB     |Simons bistro|Denmark|1|1|7|16817.0975
+74|SPECD     |Spécialités du monde|France|1|15|4|2423.3500
+75|SPLIR     |Split Rail Beer & Ale|USA|1|43|9|11441.6300
+76|SUPRD     |Suprêmes délices|Belgium|1|16|12|24088.7800
+77|THEBI     |The Big Cheese|USA|1|36|4|3361.0000
+78|THECR     |The Cracker Box|USA|1|31|3|1947.2400
+79|TOMSP     |Toms Spezialitäten|Germany|1|45|6|4778.1400
+80|TORTU     |Tortuga Restaurante|Mexico|1|3|10|10812.1500
+81|TRADH     |Tradição Hipermercados|Brazil|1|108|6|6850.6640
+82|TRAIH     |Trail's Head Gourmet Provisioners|USA|1|119|3|1571.2000
+83|VAFFE     |Vaffeljernet|Denmark|1|35|11|15843.9250
+84|VICTE     |Victuailles en stock|France|1|104|10|9182.4300
+85|VINET     |Vins et alcools Chevalier|France|1|176|5|1480.0000
+86|WANDK     |Die Wandernde Kuh|Germany|1|14|10|9588.4250
+87|WARTH     |Wartian Herkku|Finland|1|22|15|15648.7025
+88|WELLI     |Wellington Importadora|Brazil|1|59|9|6068.2000
+89|WHITC     |White Clover Markets|USA|1|6|14|27363.6050
+90|WILMK     |Wilman Kala|Finland|1|30|7|3161.3500
+91|WOLZA     |Wolski  Zajazd|Poland|1|14|7|3531.9500
+
+(91 rows affected)
+Clientes_Total|Clientes_Con_Compras|Clientes_Sin_Compras|Pedidos_Distintos|Monto_Total|Recencia_Minima|Recencia_Maxima
+--------------|--------------------|--------------------|-----------------|-----------|---------------|---------------
+91|89|2|830|1265793.0395|1|658
+
+(1 rows affected)
