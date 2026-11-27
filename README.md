@@ -209,7 +209,8 @@ un proxy de reactivación histórica y no mide el efecto de campañas.
 ## Dashboard Power BI (`Dashboard.pbix`)
 
 El archivo de entrega está en la raíz del repositorio y conserva el modelo, las
-medidas y las páginas construidas en Power BI Desktop.
+medidas y las páginas construidas en Power BI Desktop. **Diseño visual de las
+tres páginas funcionales completado.**
 
 | Tipo | Página | Visuales |
 |---|---|---:|
@@ -221,7 +222,7 @@ medidas y las páginas construidas en Power BI Desktop.
 | Validación | Validación KPI 1-3 | 3 |
 | Validación | Validación KPI 4-7 | 4 |
 
-Las páginas funcionales cubren la lectura ejecutiva, la segmentación y el
+Las tres páginas funcionales cubren la lectura ejecutiva, la segmentación y el
 detalle por cliente; las cuatro páginas restantes documentan los controles
 manuales de modelo, RFM y KPI. El PBIX se publica como binario y no se modifica
 desde el repositorio.
